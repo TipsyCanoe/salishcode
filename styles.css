@@ -167,13 +167,58 @@ nav {
 .about {
     padding: 100px 0;
     background: var(--bg-alt);
+}
+
+.about h2 {
     text-align: center;
 }
 
-.about p {
-    max-width: 700px;
-    margin: 0 auto;
+.about-content {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+    max-width: 900px;
+    margin: 2rem auto 0;
+}
+
+.profile-photo {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid var(--primary);
+    flex-shrink: 0;
+}
+
+.about-text {
+    text-align: left;
+}
+
+.about-text p {
+    margin: 0 0 1rem;
     font-size: 1.125rem;
+}
+
+.mission-statement {
+    font-size: 1.25rem !important;
+    color: var(--text) !important;
+    border-left: 4px solid var(--primary);
+    padding-left: 1rem;
+    margin-bottom: 1.5rem !important;
+}
+
+.linkedin-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.linkedin-link:hover {
+    color: var(--primary-dark);
 }
 
 /* Contact */
@@ -190,11 +235,30 @@ nav {
 footer {
     padding: 2rem 0;
     border-top: 1px solid var(--border);
-    text-align: center;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 footer p {
     font-size: 0.875rem;
+}
+
+.social-links {
+    display: flex;
+    gap: 1rem;
+}
+
+.social-links a {
+    color: var(--text-light);
+    transition: color 0.2s;
+}
+
+.social-links a:hover {
+    color: var(--primary);
 }
 
 /* Responsive */
@@ -213,6 +277,27 @@ footer p {
     .services, .about, .contact {
         padding: 60px 0;
     }
+    
+    .about-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .about-text {
+        text-align: center;
+    }
+    
+    .mission-statement {
+        border-left: none;
+        border-top: 4px solid var(--primary);
+        padding-left: 0;
+        padding-top: 1rem;
+    }
+    
+    .footer-content {
+        flex-direction: column;
+        gap: 1rem;
+    }
 }
 
 @media (max-width: 480px) {
@@ -221,4 +306,9 @@ footer p {
     }
     
     h1 { font-size: 1.875rem; }
+    
+    .profile-photo {
+        width: 150px;
+        height: 150px;
+    }
 }
