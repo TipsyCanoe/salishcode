@@ -11,6 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <button id="mode-toggle" style="position:fixed;top:20px;right:20px;z-index:200;padding:8px 16px;border-radius:8px;border:none;background:#14B8A6;color:#fff;font-weight:600;cursor:pointer;box-shadow:0 2px 8px rgba(20,184,166,0.15);">🌙 Dark Mode</button>
     <header>
         <nav class="container">
             <div class="logo">Salish Code</div>
@@ -95,5 +96,32 @@
             </div>
         </div>
     </footer>
+<script>
+const toggleBtn = document.getElementById('mode-toggle');
+const body = document.body;
+let darkMode = false;
+
+function setMode(isDark) {
+    darkMode = isDark;
+    if (darkMode) {
+        body.classList.add('dark-mode');
+        toggleBtn.textContent = '☀️ Light Mode';
+        toggleBtn.style.background = '#1F2937';
+        toggleBtn.style.color = '#14B8A6';
+    } else {
+        body.classList.remove('dark-mode');
+        toggleBtn.textContent = '🌙 Dark Mode';
+        toggleBtn.style.background = '#14B8A6';
+        toggleBtn.style.color = '#fff';
+    }
+}
+
+toggleBtn.addEventListener('click', () => setMode(!darkMode));
+
+// Optional: auto-detect system preference
+if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    setMode(true);
+}
+</script>
 </body>
 </html>

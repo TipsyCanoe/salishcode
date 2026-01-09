@@ -6,13 +6,26 @@
 }
 
 :root {
-    --primary: #14B8A6; /* bright teal */
-    --primary-dark: #0E9488; /* slightly darker teal */
-    --text: #F9FAFB; /* off-white */
-    --text-light: #A7F3D0; /* light teal for subtle text */
-    --bg: #111827; /* near-black */
-    --bg-alt: #1F2937; /* dark charcoal */
-    --border: #134E4A; /* teal-tinted border */
+    /* Light mode colors */
+    --primary: #14B8A6;
+    --primary-dark: #0E9488;
+    --text: #1F2937;
+    --text-light: #6b7280;
+    --bg: #F9FAFB;
+    --bg-alt: #FFFFFF;
+    --border: #e5e7eb;
+}
+
+/* Dark mode overrides */
+.dark-mode {
+    --primary: #14B8A6;
+    --primary-dark: #0E9488;
+    --text: #F9FAFB;
+    --text-light: #A7F3D0;
+    --bg: #111827;
+    --bg-alt: #1F2937;
+    --border: #134E4A;
+}
 }
 
 html {
