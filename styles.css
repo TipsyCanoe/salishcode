@@ -6,13 +6,13 @@
 }
 
 :root {
-    --primary: #2563eb;
-    --primary-dark: #1d4ed8;
-    --text: #1f2937;
-    --text-light: #6b7280;
-    --bg: #ffffff;
-    --bg-alt: #f9fafb;
-    --border: #e5e7eb;
+    --primary: #14B8A6; /* bright teal */
+    --primary-dark: #0E9488; /* slightly darker teal */
+    --text: #F9FAFB; /* off-white */
+    --text-light: #A7F3D0; /* light teal for subtle text */
+    --bg: #111827; /* near-black */
+    --bg-alt: #1F2937; /* dark charcoal */
+    --border: #134E4A; /* teal-tinted border */
 }
 
 html {
@@ -24,6 +24,12 @@ body {
     color: var(--text);
     line-height: 1.6;
     background: var(--bg);
+}
+
+.card, .section, .services, .about, .contact {
+    background: var(--bg-alt);
+    color: var(--text);
+}
 }
 
 .container {
@@ -58,7 +64,7 @@ p {
 
 .btn-primary {
     background: var(--primary);
-    color: white;
+    color: var(--text);
 }
 
 .btn-primary:hover {
@@ -72,7 +78,7 @@ header {
     top: 0;
     left: 0;
     right: 0;
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(17, 24, 39, 0.95); /* near-black with opacity */
     backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--border);
     z-index: 100;
@@ -99,13 +105,13 @@ nav {
 
 .nav-links a {
     text-decoration: none;
-    color: var(--text);
+    color: var(--primary);
     font-weight: 500;
     transition: color 0.2s;
 }
 
 .nav-links a:hover {
-    color: var(--primary);
+    color: var(--primary-dark);
 }
 
 /* Hero */
@@ -150,12 +156,14 @@ nav {
     border: 1px solid var(--border);
     text-align: center;
     transition: all 0.2s ease;
+    background: var(--bg-alt);
+    color: var(--text);
 }
 
 .service-card:hover {
     border-color: var(--primary);
     transform: translateY(-4px);
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 10px 40px rgba(20, 184, 166, 0.12); /* teal shadow */
 }
 
 .service-icon {
@@ -253,12 +261,12 @@ footer p {
 }
 
 .social-links a {
-    color: var(--text-light);
+    color: var(--primary);
     transition: color 0.2s;
 }
 
 .social-links a:hover {
-    color: var(--primary);
+    color: var(--primary-dark);
 }
 
 /* Responsive */
