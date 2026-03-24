@@ -29,7 +29,8 @@ export default async (req) => {
       INSERT INTO survey_responses (
         nation, department, role, respondent_name,
         wants_callback, phone, email, best_time,
-        q1, q2, q3
+        q1, q2, q3,
+        member, fisher, vessel, employee
       ) VALUES (
         ${body.nation   || null},
         ${body.dept     || null},
@@ -41,7 +42,11 @@ export default async (req) => {
         ${body.calltime || null},
         ${body.q1       || null},
         ${body.q2       || null},
-        ${body.q3       || null}
+        ${body.q3       || null},
+        ${body.member   || null},
+        ${body.fisher   || null},
+        ${body.vessel   || null},
+        ${body.employee || null}
       )
     `;
 

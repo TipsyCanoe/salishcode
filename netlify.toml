@@ -14,4 +14,4 @@
 [[headers]]
   for = "/api/*"
   [headers.values]
-    Access-Control-Allow-Origin = "https://salishcode.com"
+    Access-Control-Allow-Origin = "*"

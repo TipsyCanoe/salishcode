@@ -3,9 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Community Technology Survey — Salish Code</title>
+<title>Tribal Technology Survey — Salish Code LLC</title>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
-
 <style>
   :root {
     --forest:     #1C3A2E;
@@ -414,11 +413,11 @@
     .hero-inner { padding: 3rem 0 2.5rem; }
   }
 
-  .sc-nav-logo, 
-  .sc-nav-logo:visited, 
+  .sc-nav-logo,
+  .sc-nav-logo:visited,
   .sc-nav-logo:link,
-  .sc-nav-logo:hover { 
-    color: #fff; 
+  .sc-nav-logo:hover {
+    color: #fff;
     text-decoration: none;
     display: flex;
     align-items: center;
@@ -446,12 +445,15 @@
   </div>
 </nav>
 
-<!-- Netlify hidden form for bot detection -->
 <form name="community-survey" netlify netlify-honeypot="bot-field" hidden>
   <input type="text" name="nation" />
   <input type="text" name="dept" />
   <input type="text" name="role" />
   <input type="text" name="name" />
+  <input type="text" name="member" />
+  <input type="text" name="fisher" />
+  <input type="text" name="vessel" />
+  <input type="text" name="employee" />
   <input type="text" name="phone" />
   <input type="email" name="email" />
   <input type="text" name="calltime" />
@@ -475,7 +477,7 @@
   <div class="hero-inner">
     <div class="sc-wordmark">
       <div class="sc-mark">S</div>
-      <span class="sc-name">Salish Code</span>
+      <span class="sc-name">Salish Code LLC</span>
     </div>
     <div class="hero-eyebrow">Tribal Technology Initiative — 2025</div>
     <h1 class="hero-title">
@@ -605,6 +607,53 @@
           <input type="text" id="f-name" placeholder="First name or anonymous" />
         </div>
       </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Are you a tribal member? <span class="optional-tag">optional</span></label>
+          <select id="f-member">
+            <option value="">Select or skip</option>
+            <option>Yes — enrolled member</option>
+            <option>Yes — descendant</option>
+            <option>No</option>
+            <option>Prefer not to say</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Do you fish? <span class="optional-tag">optional</span></label>
+          <select id="f-fisher">
+            <option value="">Select or skip</option>
+            <option>Yes — commercial fisher</option>
+            <option>Yes — subsistence fisher</option>
+            <option>Yes — both commercial and subsistence</option>
+            <option>No</option>
+            <option>Prefer not to say</option>
+          </select>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Do you own a vessel? <span class="optional-tag">optional</span></label>
+          <select id="f-vessel">
+            <option value="">Select or skip</option>
+            <option>Yes — I own a vessel</option>
+            <option>No — I crew on others' vessels</option>
+            <option>No</option>
+            <option>Prefer not to say</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Are you a tribal employee? <span class="optional-tag">optional</span></label>
+          <select id="f-employee">
+            <option value="">Select or skip</option>
+            <option>Yes — LIBC / tribal government</option>
+            <option>Yes — tribal enterprise or program</option>
+            <option>Yes — tribal college or school</option>
+            <option>No — community member</option>
+            <option>No — outside organization</option>
+            <option>Prefer not to say</option>
+          </select>
+        </div>
+      </div>
 
       <div class="divider-label"><span>The three questions that matter</span></div>
 
@@ -693,7 +742,7 @@
 
 <!-- ── FOOTER ────────────────────────────────────── -->
 <footer class="footer">
-  <div class="footer-name">Salish Code</div>
+  <div class="footer-name">Salish Code LLC</div>
   <div class="footer-sub">Technology for Tribal Governments &amp; Institutions · Bellingham, WA</div>
 </footer>
 
@@ -753,6 +802,10 @@ function submitSurvey() {
     dept: document.getElementById('f-dept').value || 'Not specified',
     role: document.getElementById('f-role').value || '',
     name: document.getElementById('f-name').value || 'Anonymous',
+    member: document.getElementById('f-member').value || '',
+    fisher: document.getElementById('f-fisher').value || '',
+    vessel: document.getElementById('f-vessel').value || '',
+    employee: document.getElementById('f-employee').value || '',
     q1, q2, q3,
     callback: wantsCallback,
     phone: phone || '',
@@ -763,12 +816,12 @@ function submitSurvey() {
   arr.push(entry);
   saveResponses(arr);
 
-  // Post to Netlify Forms
+  // Post to Netlify / serverless function
   fetch('/api/save-survey', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify(entry)
-}).catch(() => {});
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(entry)
+  }).catch(() => {});
 
   document.getElementById('formCard').style.display = 'none';
 
@@ -801,15 +854,21 @@ function renderAdmin() {
 
   const nationCounts = {};
   const deptCounts = {};
+  const fisherCounts = {};
+  const memberCounts = {};
   responses.forEach(r => {
     if (r.nation && r.nation !== 'Not specified') nationCounts[r.nation] = (nationCounts[r.nation]||0)+1;
     if (r.dept && r.dept !== 'Not specified') deptCounts[r.dept] = (deptCounts[r.dept]||0)+1;
+    if (r.fisher) fisherCounts[r.fisher] = (fisherCounts[r.fisher]||0)+1;
+    if (r.member) memberCounts[r.member] = (memberCounts[r.member]||0)+1;
   });
 
   const nationData = Object.entries(nationCounts).map(([label,count]) => ({label,count}));
   const deptData = Object.entries(deptCounts).map(([label,count]) => ({label,count}));
+  const fisherData = Object.entries(fisherCounts).map(([label,count]) => ({label,count}));
   const maxNation = nationData.length ? Math.max(...nationData.map(d=>d.count)) : 1;
   const maxDept = deptData.length ? Math.max(...deptData.map(d=>d.count)) : 1;
+  const maxFisher = fisherData.length ? Math.max(...fisherData.map(d=>d.count)) : 1;
 
   const recentList = [...responses].reverse().slice(0, 10).map(r => `
     <div class="response-item">
@@ -830,21 +889,26 @@ function renderAdmin() {
         ${r.q1 ? `<div class="r-q">Time sink:</div><div class="r-a">${r.q1}</div>` : ''}
         ${r.q2 ? `<div class="r-q">Hard to find:</div><div class="r-a">${r.q2}</div>` : ''}
         ${r.q3 ? `<div class="r-q">Fix one thing:</div><div class="r-a">${r.q3}</div>` : ''}
+        ${r.member ? `<div class="r-q">Tribal member:</div><div class="r-a">${r.member}</div>` : ''}
+        ${r.fisher ? `<div class="r-q">Fisher:</div><div class="r-a">${r.fisher}</div>` : ''}
+        ${r.vessel ? `<div class="r-q">Vessel owner:</div><div class="r-a">${r.vessel}</div>` : ''}
       </div>
     </div>
   `).join('');
 
   const callbacks = responses.filter(r => r.callback).length;
+  const fishers = responses.filter(r => r.fisher && r.fisher !== 'No' && r.fisher !== 'Prefer not to say' && r.fisher !== '').length;
 
   document.getElementById('adminContent').innerHTML = `
     <div class="analytics-grid">
       <div class="a-stat"><div class="a-stat-label">Total responses</div><div class="a-stat-value">${total}</div></div>
       <div class="a-stat"><div class="a-stat-label">Callback requests</div><div class="a-stat-value" style="color:var(--gold)">${callbacks}</div></div>
-      <div class="a-stat"><div class="a-stat-label">Nations represented</div><div class="a-stat-value">${Object.keys(nationCounts).length}</div></div>
+      <div class="a-stat"><div class="a-stat-label">Fishers represented</div><div class="a-stat-value">${fishers}</div></div>
     </div>
     ${total === 0 ? '<div class="empty-state">No responses yet — share the page to start collecting.</div>' : ''}
     ${buildChart('Responses by department', deptData, maxDept)}
     ${buildChart('Responses by tribal nation', nationData, maxNation)}
+    ${fisherData.length ? buildChart('Fisher type breakdown', fisherData, maxFisher) : ''}
     ${total > 0 ? `<div class="chart-title" style="margin-top:1.5rem;">Recent responses</div><div class="responses-list">${recentList}</div>` : ''}
   `;
 }
