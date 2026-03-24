@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Admin — Salish Code</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;500&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --forest:#1C3A2E;--forest-lt:#3A6E54;
+      --gold:#C4982A;--gold-pale:#FAF3DC;
+      --offwhite:#F6F3EE;--cream:#FDFBF7;
+      --ink:#161210;--ink-mid:#3A2E24;--ink-muted:#6B5C4A;--ink-faint:#A8967E;
+      --red:#B83030;--red-pale:#FAEAEA;
+      --green:#1E7A45;--green-pale:#E4F5EC;
+      --border:rgba(28,58,46,0.10);--border-md:rgba(28,58,46,0.18);
+      --shadow:0 1px 4px rgba(16,12,8,0.07),0 4px 16px rgba(16,12,8,0.04);
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'DM Sans',sans-serif;background:var(--offwhite);color:var(--ink);font-size:15px;}
+
+    /* Login */
+    .login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem;}
+    .login-card{background:var(--cream);border:1px solid var(--border);border-radius:16px;padding:2.5rem;width:100%;max-width:380px;box-shadow:var(--shadow);text-align:center;}
+    .login-mark{width:48px;height:48px;border-radius:10px;background:var(--forest);margin:0 auto 1.25rem;display:flex;align-items:center;justify-content:center;}
+    .login-title{font-family:'Fraunces',serif;font-size:22px;color:var(--ink);margin-bottom:0.4rem;}
+    .login-sub{font-size:13px;color:var(--ink-muted);margin-bottom:1.5rem;}
+    .login-input{width:100%;padding:10px 12px;font-size:14px;background:var(--offwhite);border:1px solid var(--border-md);border-radius:8px;color:var(--ink);font-family:'DM Sans',sans-serif;outline:none;text-align:center;letter-spacing:0.1em;margin-bottom:10px;}
+    .login-input:focus{border-color:var(--forest-lt);}
+    .login-btn{width:100%;background:var(--forest);border:none;border-radius:8px;padding:11px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;color:#fff;cursor:pointer;}
+    .login-btn:hover{background:#2A5240;}
+    .login-error{font-size:12px;color:var(--red);margin-top:8px;display:none;}
+
+    /* Dashboard */
+    .dashboard{display:none;}
+    .topbar{background:var(--forest);border-bottom:3px solid var(--gold);padding:0 2rem;height:54px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;}
+    .topbar-title{font-family:'Fraunces',serif;font-size:16px;color:#fff;}
+    .topbar-right{display:flex;gap:10px;align-items:center;}
+    .topbar-badge{font-size:11px;color:rgba(255,255,255,0.45);border-left:1px solid rgba(255,255,255,0.15);padding-left:10px;}
+    .btn-logout{background:none;border:1px solid rgba(255,255,255,0.2);border-radius:6px;padding:5px 12px;font-size:12px;color:rgba(255,255,255,0.6);cursor:pointer;font-family:'DM Sans',sans-serif;}
+    .btn-logout:hover{color:#fff;border-color:rgba(255,255,255,0.4);}
+    .btn-export{background:var(--gold);border:none;border-radius:6px;padding:6px 14px;font-size:12px;font-weight:600;color:var(--forest);cursor:pointer;font-family:'DM Sans',sans-serif;}
+
+    .main{max-width:1100px;margin:0 auto;padding:2rem;}
+
+    /* Stats */
+    .stats-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-bottom:1.75rem;}
+    .stat{background:var(--cream);border:1px solid var(--border);border-radius:10px;padding:14px 16px;border-left:4px solid var(--forest);}
+    .stat.urgent{border-left-color:var(--gold);}
+    .stat-label{font-size:10px;font-weight:600;color:var(--ink-faint);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:5px;}
+    .stat-val{font-family:'Fraunces',serif;font-size:26px;color:var(--ink);}
+    .stat.urgent .stat-val{color:var(--gold);}
+
+    /* Tabs */
+    .tabs{display:flex;gap:4px;margin-bottom:1.25rem;border-bottom:1px solid var(--border);padding-bottom:0;}
+    .tab-btn{background:none;border:none;border-bottom:2px solid transparent;padding:8px 16px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;color:var(--ink-muted);cursor:pointer;margin-bottom:-1px;}
+    .tab-btn.active{color:var(--forest);border-bottom-color:var(--forest);}
+    .tab-panel{display:none;}
+    .tab-panel.active{display:block;}
+
+    /* Charts */
+    .charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:1.5rem;}
+    .chart-card{background:var(--cream);border:1px solid var(--border);border-radius:12px;padding:1.25rem;}
+    .chart-title{font-size:11px;font-weight:600;color:var(--ink-muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1rem;}
+    .bar-row{display:flex;align-items:center;gap:8px;margin-bottom:7px;}
+    .bar-label{font-size:12px;color:var(--ink-mid);width:160px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+    .bar-track{flex:1;background:var(--offwhite);border-radius:4px;height:20px;border:1px solid var(--border);overflow:hidden;}
+    .bar-fill{height:100%;background:var(--forest);border-radius:3px;display:flex;align-items:center;padding-left:6px;font-size:11px;color:#fff;font-weight:600;min-width:24px;transition:width 0.4s ease;}
+    .bar-n{font-size:11px;color:var(--ink-faint);width:20px;text-align:right;}
+
+    /* Response cards */
+    .response-card{background:var(--cream);border:1px solid var(--border);border-radius:10px;padding:1rem 1.25rem;margin-bottom:10px;}
+    .response-card.callback{border-left:3px solid var(--gold);}
+    .r-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px;gap:10px;flex-wrap:wrap;}
+    .r-tags{display:flex;gap:6px;flex-wrap:wrap;align-items:center;}
+    .r-tag{font-size:10px;font-weight:600;padding:2px 8px;border-radius:4px;background:var(--offwhite);color:var(--ink-muted);border:1px solid var(--border);}
+    .r-tag.callback-tag{background:var(--gold-pale);color:#7A5500;border-color:rgba(196,152,42,0.25);}
+    .r-tag.done-tag{background:var(--green-pale);color:var(--green);border-color:rgba(30,122,69,0.2);}
+    .r-date{font-size:11px;color:var(--ink-faint);white-space:nowrap;}
+    .r-contact{background:var(--gold-pale);border:1px solid rgba(196,152,42,0.2);border-radius:6px;padding:8px 10px;font-size:12px;color:var(--ink-mid);margin-bottom:10px;line-height:1.6;}
+    .r-answers{display:flex;flex-direction:column;gap:6px;}
+    .r-q{font-size:10px;font-weight:700;color:var(--ink-faint);text-transform:uppercase;letter-spacing:0.07em;}
+    .r-a{font-size:13px;color:var(--ink-mid);line-height:1.55;}
+    .r-actions{margin-top:10px;display:flex;gap:8px;}
+    .btn-followup{background:var(--forest);border:none;border-radius:6px;padding:6px 14px;font-size:11px;font-weight:600;color:#fff;cursor:pointer;font-family:'DM Sans',sans-serif;}
+    .btn-followup.done{background:var(--green);}
+    .btn-followup:hover{opacity:0.85;}
+
+    /* Loading */
+    .loading{text-align:center;padding:3rem;color:var(--ink-faint);font-size:14px;}
+    .empty{text-align:center;padding:2.5rem;color:var(--ink-faint);font-size:14px;}
+
+    @media(max-width:700px){
+      .stats-grid{grid-template-columns:repeat(2,1fr);}
+      .charts-grid{grid-template-columns:1fr;}
+    }
+  </style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="login-wrap" id="loginWrap">
+  <div class="login-card">
+    <div class="login-mark">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+        <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/>
+      </svg>
+    </div>
+    <div class="login-title">Admin Access</div>
+    <p class="login-sub">Salish Code · Survey Analytics</p>
+    <input type="password" id="adminKey" class="login-input" placeholder="Enter admin key" onkeydown="if(event.key==='Enter')login()" />
+    <button class="login-btn" onclick="login()">Sign in</button>
+    <div class="login-error" id="loginError">Incorrect key — try again.</div>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div class="dashboard" id="dashboard">
+  <div class="topbar">
+    <span class="topbar-title">Salish Code · Survey Admin</span>
+    <div class="topbar-right">
+      <button class="btn-export" onclick="exportCSV()">Export CSV</button>
+      <span class="topbar-badge" id="lastRefresh"></span>
+      <button class="btn-logout" onclick="logout()">Sign out</button>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="stats-grid" id="statsGrid">
+      <div class="loading" style="grid-column:1/-1">Loading data...</div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('overview',this)">Overview</button>
+      <button class="tab-btn" onclick="switchTab('callbacks',this)">Callbacks</button>
+      <button class="tab-btn" onclick="switchTab('responses',this)">All responses</button>
+    </div>
+
+    <div class="tab-panel active" id="tab-overview">
+      <div class="charts-grid" id="chartsGrid">
+        <div class="loading" style="grid-column:1/-1">Loading charts...</div>
+      </div>
+    </div>
+
+    <div class="tab-panel" id="tab-callbacks">
+      <div id="callbacksList"><div class="loading">Loading...</div></div>
+    </div>
+
+    <div class="tab-panel" id="tab-responses">
+      <div id="responsesList"><div class="loading">Loading...</div></div>
+    </div>
+  </div>
+</div>
+
+<script>
+let adminKey = '';
+let allData = null;
+
+function login() {
+  const key = document.getElementById('adminKey').value.trim();
+  if (!key) return;
+  adminKey = key;
+  fetchData().then(ok => {
+    if (ok) {
+      document.getElementById('loginWrap').style.display = 'none';
+      document.getElementById('dashboard').style.display = 'block';
+      sessionStorage.setItem('sc_admin_key', key);
+    } else {
+      document.getElementById('loginError').style.display = 'block';
+      adminKey = '';
+    }
+  });
+}
+
+function logout() {
+  sessionStorage.removeItem('sc_admin_key');
+  location.reload();
+}
+
+async function fetchData() {
+  try {
+    const res = await fetch('/api/get-responses', {
+      headers: { 'x-admin-key': adminKey }
+    });
+    if (res.status === 401) return false;
+    if (!res.ok) throw new Error('Server error');
+    allData = await res.json();
+    renderDashboard();
+    document.getElementById('lastRefresh').textContent =
+      'Updated ' + new Date().toLocaleTimeString('en-US', {hour:'numeric',minute:'2-digit'});
+    return true;
+  } catch(e) {
+    console.error(e);
+    return false;
+  }
+}
+
+function renderDashboard() {
+  const { stats, byDept, byNation, callbacks, recent } = allData;
+  const s = stats;
+  const pending = callbacks.filter(c => !c.followed_up).length;
+
+  document.getElementById('statsGrid').innerHTML = `
+    <div class="stat"><div class="stat-label">Total responses</div><div class="stat-val">${s.total}</div></div>
+    <div class="stat urgent"><div class="stat-label">Callback requests</div><div class="stat-val">${s.callbacks}</div></div>
+    <div class="stat urgent"><div class="stat-label">Pending follow-ups</div><div class="stat-val">${pending}</div></div>
+    <div class="stat"><div class="stat-label">Nations</div><div class="stat-val">${s.nations}</div></div>
+    <div class="stat"><div class="stat-label">Departments</div><div class="stat-val">${s.departments}</div></div>
+  `;
+
+  const maxDept = byDept.length ? Math.max(...byDept.map(d=>d.count)) : 1;
+  const maxNation = byNation.length ? Math.max(...byNation.map(d=>d.count)) : 1;
+
+  document.getElementById('chartsGrid').innerHTML =
+    buildChart('Responses by department', byDept, maxDept) +
+    buildChart('Responses by nation', byNation, maxNation);
+
+  renderCallbacks(callbacks);
+  renderResponses(recent);
+}
+
+function buildChart(title, data, max) {
+  if (!data.length) return `<div class="chart-card"><div class="chart-title">${title}</div><div class="empty">No data yet</div></div>`;
+  const bars = data.map(d => {
+    const pct = Math.round((d.count / max) * 100);
+    return `<div class="bar-row">
+      <span class="bar-label" title="${d.label}">${d.label}</span>
+      <div class="bar-track"><div class="bar-fill" style="width:${Math.max(pct,8)}%">${d.count}</div></div>
+      <span class="bar-n">${d.count}</span>
+    </div>`;
+  }).join('');
+  return `<div class="chart-card"><div class="chart-title">${title}</div>${bars}</div>`;
+}
+
+function renderCallbacks(callbacks) {
+  if (!callbacks.length) {
+    document.getElementById('callbacksList').innerHTML = '<div class="empty">No callback requests yet.</div>';
+    return;
+  }
+  const html = callbacks.map(r => buildResponseCard(r, true)).join('');
+  document.getElementById('callbacksList').innerHTML = html;
+}
+
+function renderResponses(recent) {
+  if (!recent.length) {
+    document.getElementById('responsesList').innerHTML = '<div class="empty">No responses yet.</div>';
+    return;
+  }
+  document.getElementById('responsesList').innerHTML = recent.map(r => buildResponseCard(r, false)).join('');
+}
+
+function buildResponseCard(r, callbackView) {
+  const date = new Date(r.submitted_at).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+  const isDone = r.followed_up;
+  return `<div class="response-card ${r.wants_callback ? 'callback' : ''}">
+    <div class="r-top">
+      <div class="r-tags">
+        ${r.nation ? `<span class="r-tag">${r.nation}</span>` : ''}
+        ${r.department ? `<span class="r-tag">${r.department}</span>` : ''}
+        ${r.role ? `<span class="r-tag">${r.role}</span>` : ''}
+        ${r.wants_callback ? `<span class="r-tag callback-tag">Callback requested</span>` : ''}
+        ${isDone ? `<span class="r-tag done-tag">Followed up</span>` : ''}
+      </div>
+      <span class="r-date">${date}</span>
+    </div>
+    ${(r.phone || r.email || r.best_time) ? `
+    <div class="r-contact">
+      ${r.phone ? `Phone: <strong>${r.phone}</strong>` : ''}
+      ${r.phone && r.email ? ' &nbsp;·&nbsp; ' : ''}
+      ${r.email ? `Email: <strong>${r.email}</strong>` : ''}
+      ${r.best_time ? ` &nbsp;·&nbsp; Best time: ${r.best_time}` : ''}
+    </div>` : ''}
+    <div class="r-answers">
+      ${r.q1 ? `<div class="r-q">Time sink</div><div class="r-a">${r.q1}</div>` : ''}
+      ${r.q2 ? `<div class="r-q">Hard to find</div><div class="r-a">${r.q2}</div>` : ''}
+      ${r.q3 ? `<div class="r-q">Fix one thing</div><div class="r-a">${r.q3}</div>` : ''}
+    </div>
+    ${r.wants_callback ? `
+    <div class="r-actions">
+      <button class="btn-followup ${isDone ? 'done' : ''}" onclick="markFollowup(${r.id}, ${!isDone}, this)">
+        ${isDone ? 'Followed up ✓' : 'Mark as followed up'}
+      </button>
+    </div>` : ''}
+  </div>`;
+}
+
+async function markFollowup(id, followedUp, btn) {
+  btn.disabled = true;
+  const res = await fetch('/api/mark-followup', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'x-admin-key': adminKey },
+    body: JSON.stringify({ id, followed_up: followedUp })
+  });
+  if (res.ok) {
+    btn.textContent = followedUp ? 'Followed up ✓' : 'Mark as followed up';
+    btn.classList.toggle('done', followedUp);
+    fetchData();
+  }
+  btn.disabled = false;
+}
+
+function switchTab(name, el) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('tab-' + name).classList.add('active');
+}
+
+function exportCSV() {
+  if (!allData) return;
+  const all = allData.recent;
+  const headers = ['Date','Nation','Department','Role','Name','Callback','Phone','Email','Best Time','Q1','Q2','Q3','Followed Up'];
+  const rows = all.map(r => [
+    new Date(r.submitted_at).toLocaleDateString(),
+    r.nation||'', r.department||'', r.role||'', r.respondent_name||'',
+    r.wants_callback ? 'Yes' : 'No',
+    r.phone||'', r.email||'', r.best_time||'',
+    r.q1||'', r.q2||'', r.q3||'',
+    r.followed_up ? 'Yes' : 'No'
+  ].map(v => `"${String(v).replace(/"/g,'""')}"`).join(','));
+  const csv = [headers.join(','), ...rows].join('\n');
+  const a = document.createElement('a');
+  a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
+  a.download = `salishcode-survey-${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();
+}
+
+// Auto-login if session key saved
+const saved = sessionStorage.getItem('sc_admin_key');
+if (saved) {
+  adminKey = saved;
+  fetchData().then(ok => {
+    if (ok) {
+      document.getElementById('loginWrap').style.display = 'none';
+      document.getElementById('dashboard').style.display = 'block';
+    } else {
+      sessionStorage.removeItem('sc_admin_key');
+      adminKey = '';
+    }
+  });
+}
+
+// Auto-refresh every 5 minutes
+setInterval(() => { if (adminKey) fetchData(); }, 5 * 60 * 1000);
+</script>
+</body>
+</html>
