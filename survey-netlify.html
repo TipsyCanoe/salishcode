@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Community Technology Survey — Salish Code LLC</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --forest:     #1C3A2E;
+    --forest-mid: #2A5240;
+    --forest-lt:  #3A6E54;
+    --sage:       #7A9E8A;
+    --sage-lt:    #B8D4C4;
+    --sage-pale:  #E8F2EC;
+    --cedar:      #8B4A1A;
+    --cedar-lt:   #C07840;
+    --gold:       #C4982A;
+    --gold-lt:    #F0D88A;
+    --gold-pale:  #FAF3DC;
+    --offwhite:   #F6F3EE;
+    --cream:      #FDFBF7;
+    --ink:        #161210;
+    --ink-mid:    #3A2E24;
+    --ink-muted:  #6B5C4A;
+    --ink-faint:  #A8967E;
+    --border:     rgba(28,58,46,0.10);
+    --border-md:  rgba(28,58,46,0.18);
+    --shadow:     0 1px 4px rgba(16,12,8,0.08), 0 4px 16px rgba(16,12,8,0.04);
+    --shadow-lg:  0 2px 12px rgba(16,12,8,0.10), 0 16px 40px rgba(16,12,8,0.07);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--offwhite);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  /* ── HERO ─────────────────────────────────────── */
+  .hero {
+    background: var(--forest);
+    padding: 0 2rem;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-pattern {
+    position: absolute; inset: 0;
+    background-image:
+      radial-gradient(circle at 15% 85%, rgba(122,158,138,0.12) 0%, transparent 50%),
+      radial-gradient(circle at 85% 15%, rgba(196,152,42,0.08) 0%, transparent 45%),
+      radial-gradient(circle at 50% 50%, rgba(58,110,84,0.10) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  /* Subtle geometric lines */
+  .hero-lines {
+    position: absolute; inset: 0; pointer-events: none; overflow: hidden;
+  }
+  .hero-lines svg { width: 100%; height: 100%; opacity: 0.06; }
+
+  .hero-inner {
+    max-width: 780px; margin: 0 auto; width: 100%;
+    position: relative; z-index: 1;
+    padding: 5rem 0 4rem;
+  }
+  .sc-wordmark {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 3.5rem;
+  }
+  .sc-mark {
+    width: 36px; height: 36px; border-radius: 8px;
+    background: var(--gold);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Fraunces', serif;
+    font-size: 18px; font-weight: 600;
+    color: var(--forest);
+  }
+  .sc-name {
+    font-family: 'Fraunces', serif;
+    font-size: 17px; font-weight: 500;
+    color: rgba(255,255,255,0.85);
+    letter-spacing: 0.02em;
+  }
+
+  .hero-eyebrow {
+    font-size: 11px; font-weight: 600;
+    color: var(--gold);
+    letter-spacing: 0.12em; text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  .hero-title {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(32px, 5vw, 52px);
+    font-weight: 500; line-height: 1.15;
+    color: #fff;
+    margin-bottom: 1.25rem;
+  }
+  .hero-title em {
+    font-style: italic;
+    color: var(--sage-lt);
+  }
+  .hero-desc {
+    font-size: 16px; line-height: 1.75;
+    color: rgba(255,255,255,0.62);
+    max-width: 560px;
+    margin-bottom: 2.5rem;
+  }
+  .hero-cta {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--gold);
+    color: var(--forest);
+    border: none; border-radius: 8px;
+    padding: 14px 28px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px; font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+    letter-spacing: 0.01em;
+  }
+  .hero-cta:hover { background: var(--gold-lt); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(196,152,42,0.3); }
+  .hero-cta svg { width: 16px; height: 16px; }
+
+  .hero-trust {
+    margin-top: 2.5rem;
+    display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
+  }
+  .trust-item {
+    font-size: 12px; color: rgba(255,255,255,0.38);
+    display: flex; align-items: center; gap: 6px;
+  }
+  .trust-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--sage); }
+
+  /* ── SURVEY SECTION ───────────────────────────── */
+  .survey-section {
+    background: var(--cream);
+    padding: 4rem 2rem 5rem;
+  }
+  .survey-inner { max-width: 680px; margin: 0 auto; }
+  .section-label {
+    font-size: 11px; font-weight: 600; color: var(--forest-lt);
+    letter-spacing: 0.1em; text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+  .section-title {
+    font-family: 'Fraunces', serif;
+    font-size: 28px; font-weight: 500; color: var(--ink);
+    margin-bottom: 0.75rem; line-height: 1.25;
+  }
+  .section-sub {
+    font-size: 14px; color: var(--ink-muted); line-height: 1.7;
+    margin-bottom: 2.5rem;
+  }
+
+  /* ── FORM ─────────────────────────────────────── */
+  .form-card {
+    background: var(--offwhite);
+    border: 1px solid var(--border-md);
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: var(--shadow);
+  }
+  .form-divider {
+    border: none; border-top: 1px solid var(--border);
+    margin: 1.75rem 0;
+  }
+  .divider-label {
+    text-align: center; position: relative; margin: 1.75rem 0;
+  }
+  .divider-label::before {
+    content: ''; position: absolute; left: 0; right: 0; top: 50%;
+    border-top: 1px solid var(--border);
+  }
+  .divider-label span {
+    position: relative; background: var(--offwhite);
+    padding: 0 12px; font-size: 11px; font-weight: 600;
+    color: var(--ink-faint); text-transform: uppercase; letter-spacing: 0.08em;
+  }
+
+  .field-row { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 14px; margin-bottom: 14px; }
+  .field-row.single { grid-template-columns: 1fr; }
+  .field { display: flex; flex-direction: column; gap: 5px; }
+  .field label {
+    font-size: 12px; font-weight: 600; color: var(--ink-muted);
+    letter-spacing: 0.04em;
+  }
+  .optional-tag {
+    font-size: 10px; font-weight: 400; color: var(--ink-faint);
+    margin-left: 5px; font-style: italic;
+  }
+  .field input, .field select, .field textarea {
+    background: var(--cream); border: 1px solid var(--border-md);
+    border-radius: 8px; padding: 10px 12px;
+    font-family: 'DM Sans', sans-serif; font-size: 14px;
+    color: var(--ink); outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus {
+    border-color: var(--forest-lt);
+    box-shadow: 0 0 0 3px rgba(58,110,84,0.10);
+  }
+  .field textarea { height: 90px; resize: vertical; line-height: 1.6; }
+  .field select { cursor: pointer; }
+
+  .q-number {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 22px; height: 22px; border-radius: 50%;
+    background: var(--forest); color: #fff;
+    font-size: 11px; font-weight: 600;
+    margin-bottom: 6px; flex-shrink: 0;
+  }
+  .q-label {
+    font-size: 15px; font-weight: 500; color: var(--ink);
+    line-height: 1.4; margin-bottom: 8px;
+    display: flex; align-items: flex-start; gap: 10px;
+  }
+  .q-hint { font-size: 12px; color: var(--ink-muted); margin-bottom: 10px; margin-left: 32px; }
+  .q-block { margin-bottom: 1.5rem; }
+
+  .submit-row { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-top: 1.5rem; }
+  .btn-submit {
+    background: var(--forest);
+    border: none; border-radius: 8px;
+    padding: 12px 28px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px; font-weight: 600;
+    color: #fff; cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.01em;
+  }
+  .btn-submit:hover { background: var(--forest-mid); transform: translateY(-1px); box-shadow: 0 4px 14px rgba(28,58,46,0.25); }
+  .privacy-note { font-size: 11px; color: var(--ink-faint); line-height: 1.5; max-width: 280px; }
+
+  /* ── SUCCESS STATE ────────────────────────────── */
+  .success-card {
+    background: var(--sage-pale);
+    border: 1px solid var(--sage-lt);
+    border-radius: 16px;
+    padding: 2.5rem 2rem;
+    text-align: center;
+    display: none;
+  }
+  .success-card.show { display: block; animation: fadeIn 0.4s ease; }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+  .success-icon {
+    width: 52px; height: 52px; border-radius: 50%;
+    background: var(--forest); margin: 0 auto 1rem;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .success-icon svg { width: 24px; height: 24px; }
+  .success-title { font-family: 'Fraunces', serif; font-size: 22px; color: var(--forest); margin-bottom: 0.5rem; }
+  .success-sub { font-size: 14px; color: var(--ink-muted); line-height: 1.6; }
+
+  /* ── WHY SECTION ──────────────────────────────── */
+  .why-section {
+    background: var(--offwhite);
+    padding: 4rem 2rem;
+    border-top: 1px solid var(--border);
+  }
+  .why-inner { max-width: 780px; margin: 0 auto; }
+  .why-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 20px; margin-top: 2rem; }
+  .why-card {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.25rem;
+    box-shadow: var(--shadow);
+  }
+  .why-icon {
+    width: 36px; height: 36px; border-radius: 8px;
+    background: var(--forest); margin-bottom: 12px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .why-icon svg { width: 18px; height: 18px; }
+  .why-title { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 6px; }
+  .why-body { font-size: 13px; color: var(--ink-muted); line-height: 1.65; }
+
+  /* ── FOOTER ───────────────────────────────────── */
+  .footer {
+    background: var(--forest);
+    padding: 2rem;
+    text-align: center;
+  }
+  .footer-name { font-family: 'Fraunces', serif; font-size: 16px; color: rgba(255,255,255,0.8); margin-bottom: 4px; }
+  .footer-sub { font-size: 12px; color: rgba(255,255,255,0.35); }
+
+  /* ── ADMIN PANEL ──────────────────────────────── */
+  .admin-toggle {
+    position: fixed; bottom: 20px; right: 20px;
+    background: var(--forest); color: #fff;
+    border: none; border-radius: 50px;
+    padding: 10px 18px; font-family: 'DM Sans', sans-serif;
+    font-size: 12px; font-weight: 600; cursor: pointer;
+    box-shadow: var(--shadow-lg); z-index: 200;
+    letter-spacing: 0.04em;
+    transition: background 0.15s;
+  }
+  .admin-toggle:hover { background: var(--forest-mid); }
+
+  .admin-overlay {
+    position: fixed; inset: 0; background: rgba(22,18,16,0.6);
+    z-index: 300; display: none; align-items: flex-end;
+    justify-content: center;
+  }
+  .admin-overlay.open { display: flex; animation: fadeIn 0.2s ease; }
+  .admin-panel {
+    background: var(--cream); border-radius: 20px 20px 0 0;
+    width: 100%; max-width: 900px;
+    max-height: 80vh; overflow-y: auto;
+    padding: 1.75rem 2rem 2.5rem;
+    box-shadow: 0 -8px 40px rgba(16,12,8,0.15);
+  }
+  .admin-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; }
+  .admin-title { font-family: 'Fraunces', serif; font-size: 20px; color: var(--ink); }
+  .admin-close {
+    background: none; border: 1px solid var(--border-md);
+    border-radius: 8px; width: 34px; height: 34px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; font-size: 16px; color: var(--ink-muted);
+  }
+  .analytics-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 12px; margin-bottom: 1.5rem; }
+  .a-stat {
+    background: var(--offwhite); border: 1px solid var(--border);
+    border-radius: 10px; padding: 14px 16px;
+    border-left: 4px solid var(--forest);
+  }
+  .a-stat-label { font-size: 10px; font-weight: 600; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 5px; }
+  .a-stat-value { font-family: 'Fraunces', serif; font-size: 26px; color: var(--ink); }
+  .chart-section { margin-bottom: 1.5rem; }
+  .chart-title { font-size: 12px; font-weight: 600; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 12px; }
+  .bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .bar-label { font-size: 12px; color: var(--ink-mid); width: 140px; flex-shrink: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .bar-track { flex: 1; background: var(--offwhite); border-radius: 4px; height: 22px; overflow: hidden; border: 1px solid var(--border); }
+  .bar-fill { height: 100%; background: var(--forest); border-radius: 3px; display: flex; align-items: center; padding-left: 8px; font-size: 11px; color: #fff; font-weight: 600; transition: width 0.5s ease; min-width: 28px; }
+  .bar-count { font-size: 12px; color: var(--ink-faint); width: 24px; text-align: right; flex-shrink: 0; }
+  .responses-list { margin-top: 1rem; }
+  .response-item {
+    background: var(--offwhite); border: 1px solid var(--border);
+    border-radius: 10px; padding: 12px 14px; margin-bottom: 8px;
+  }
+  .r-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
+  .r-tag {
+    font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 4px;
+    background: var(--sage-pale); color: var(--forest); letter-spacing: 0.04em;
+  }
+  .r-time { font-size: 10px; color: var(--ink-faint); margin-left: auto; }
+  .r-answers { display: flex; flex-direction: column; gap: 6px; }
+  .r-q { font-size: 11px; font-weight: 600; color: var(--ink-muted); }
+  .r-a { font-size: 12px; color: var(--ink-mid); line-height: 1.5; }
+  .empty-state { text-align: center; padding: 2rem; color: var(--ink-faint); font-size: 14px; }
+  .btn-export {
+    background: none; border: 1px solid var(--border-md);
+    border-radius: 8px; padding: 7px 16px;
+    font-size: 12px; font-weight: 600; color: var(--ink-muted);
+    cursor: pointer; font-family: 'DM Sans', sans-serif;
+    transition: all 0.15s;
+  }
+  .btn-export:hover { background: var(--offwhite); }
+  .btn-clear {
+    background: none; border: 1px solid rgba(180,40,30,0.2);
+    border-radius: 8px; padding: 7px 16px;
+    font-size: 12px; font-weight: 600; color: #b4281e;
+    cursor: pointer; font-family: 'DM Sans', sans-serif;
+  }
+
+  /* ── CALLBACK BOX ─────────────────────────────── */
+  .callback-block {
+    background: var(--gold-pale);
+    border: 1px solid rgba(196,152,42,0.25);
+    border-left: 4px solid var(--gold);
+    border-radius: 0 10px 10px 0;
+    padding: 1rem 1.25rem;
+    margin-top: 1.25rem;
+  }
+  .checkbox-row {
+    display: flex; align-items: flex-start; gap: 10px; cursor: pointer;
+  }
+  .checkbox-row input[type="checkbox"] {
+    width: 18px; height: 18px; margin-top: 2px;
+    accent-color: var(--forest); cursor: pointer; flex-shrink: 0;
+  }
+  .checkbox-label {
+    font-size: 14px; font-weight: 500; color: var(--ink-mid); line-height: 1.5;
+    cursor: pointer;
+  }
+  .checkbox-sub { font-size: 12px; color: var(--ink-muted); margin-top: 2px; }
+  .callback-contact {
+    margin-top: 1rem;
+    display: none;
+    animation: fadeIn 0.2s ease;
+  }
+  .callback-contact.show { display: block; }
+  .callback-contact .field-row { margin-bottom: 0; }
+
+  /* Callback flag in analytics */
+  .callback-flag {
+    display: inline-block; font-size: 10px; font-weight: 700;
+    background: var(--gold-pale); color: #7A5500;
+    border: 1px solid rgba(196,152,42,0.3);
+    border-radius: 4px; padding: 2px 8px;
+    letter-spacing: 0.05em; margin-left: 4px;
+  }
+
+  @media (max-width: 600px) {
+    .field-row { grid-template-columns: 1fr; }
+    .why-grid { grid-template-columns: 1fr; }
+    .analytics-grid { grid-template-columns: 1fr 1fr; }
+    .hero-inner { padding: 3rem 0 2.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav style="background:#1C3A2E;border-bottom:2px solid #2A5240;position:sticky;top:0;z-index:100;">
+  <div style="max-width:1100px;margin:0 auto;padding:0 2rem;height:58px;display:flex;align-items:center;justify-content:space-between;">
+    <a href="index.html" style="font-family:'Fraunces',serif;font-size:18px;font-weight:500;color:#fff;text-decoration:none;display:flex;align-items:center;gap:10px;">
+      <span style="width:30px;height:30px;border-radius:6px;background:#C4982A;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:600;color:#1C3A2E;">S</span>
+      Salish Code
+    </a>
+    <ul style="display:flex;gap:2px;list-style:none;align-items:center;">
+      <li><a href="solutions.html" style="font-size:13px;font-weight:500;color:rgba(255,255,255,0.65);text-decoration:none;padding:6px 12px;border-radius:6px;">Solutions</a></li>
+      <li><a href="pricing.html" style="font-size:13px;font-weight:500;color:rgba(255,255,255,0.65);text-decoration:none;padding:6px 12px;border-radius:6px;">Pricing</a></li>
+      <li><a href="survey.html" style="font-size:13px;font-weight:500;color:#C4982A;text-decoration:none;padding:6px 12px;border-radius:6px;">Community Survey</a></li>
+      <li><a href="index.html#contact" style="font-size:13px;font-weight:600;color:#1C3A2E;background:#C4982A;text-decoration:none;padding:7px 16px;border-radius:6px;">Get in Touch</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- Netlify hidden form for bot detection -->
+<form name="community-survey" netlify netlify-honeypot="bot-field" hidden>
+  <input type="text" name="nation" />
+  <input type="text" name="dept" />
+  <input type="text" name="role" />
+  <input type="text" name="name" />
+  <input type="text" name="phone" />
+  <input type="email" name="email" />
+  <input type="text" name="calltime" />
+  <input type="checkbox" name="callback" />
+  <textarea name="q1"></textarea>
+  <textarea name="q2"></textarea>
+  <textarea name="q3"></textarea>
+</form>
+
+<!-- ── HERO ─────────────────────────────────────── -->
+<section class="hero">
+  <div class="hero-pattern"></div>
+  <div class="hero-lines">
+    <svg viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice">
+      <line x1="0" y1="200" x2="1200" y2="450" stroke="white" stroke-width="0.5"/>
+      <line x1="0" y1="450" x2="1200" y2="200" stroke="white" stroke-width="0.5"/>
+      <circle cx="600" cy="350" r="280" fill="none" stroke="white" stroke-width="0.5"/>
+      <circle cx="600" cy="350" r="180" fill="none" stroke="white" stroke-width="0.5"/>
+    </svg>
+  </div>
+  <div class="hero-inner">
+    <div class="sc-wordmark">
+      <div class="sc-mark">S</div>
+      <span class="sc-name">Salish Code LLC</span>
+    </div>
+    <div class="hero-eyebrow">Tribal Technology Initiative — 2025</div>
+    <h1 class="hero-title">
+      What does your team<br>
+      <em>actually need?</em>
+    </h1>
+    <p class="hero-desc">
+      Salish Code is a Native-owned technology firm building software for tribal governments 
+      and institutions. We don't guess what to build — we ask. Help us understand where 
+      your staff's time goes, so the tools we build fix real problems.
+    </p>
+    <a href="#survey" class="hero-cta">
+      Take the survey
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+    </a>
+    <div class="hero-trust">
+      <span class="trust-item"><span class="trust-dot"></span>Takes under 3 minutes</span>
+      <span class="trust-item"><span class="trust-dot"></span>No account required</span>
+      <span class="trust-item"><span class="trust-dot"></span>Responses stay confidential</span>
+      <span class="trust-item"><span class="trust-dot"></span>Serving Tribal Nations of the Pacific Northwest</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── WHY ──────────────────────────────────────── -->
+<section class="why-section">
+  <div class="why-inner">
+    <div class="section-label">Why this survey</div>
+    <h2 class="section-title">Built for tribal staff, by someone who works with them</h2>
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="why-icon">
+          <svg viewBox="0 0 18 18" fill="none" stroke="white" stroke-width="1.5">
+            <rect x="2" y="3" width="14" height="12" rx="2"/>
+            <path d="M6 7h6M6 10h4"/>
+          </svg>
+        </div>
+        <div class="why-title">No generic software</div>
+        <div class="why-body">Off-the-shelf tools aren't built for tribal governments. Your workflows, your terminology, your needs — built in.</div>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">
+          <svg viewBox="0 0 18 18" fill="none" stroke="white" stroke-width="1.5">
+            <circle cx="9" cy="9" r="7"/>
+            <path d="M9 5v4l3 2"/>
+          </svg>
+        </div>
+        <div class="why-title">Staff-first discovery</div>
+        <div class="why-body">We ask the people doing the work, not just leadership. The best solutions come from understanding the actual day-to-day.</div>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">
+          <svg viewBox="0 0 18 18" fill="none" stroke="white" stroke-width="1.5">
+            <path d="M4 14l4-8 3 5 2-3 3 6"/>
+          </svg>
+        </div>
+        <div class="why-title">Demand drives build</div>
+        <div class="why-body">Survey results determine what gets built first. The more responses from a department, the higher it goes on the roadmap.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SURVEY ────────────────────────────────────── -->
+<section class="survey-section" id="survey">
+  <div class="survey-inner">
+    <div class="section-label">Technology Needs Survey</div>
+    <h2 class="section-title">Tell us about your work</h2>
+    <p class="section-sub">
+      Optional fields help us understand which departments and nations have the greatest need. 
+      The three questions at the bottom are what matter most — feel free to skip everything else.
+    </p>
+
+    <div class="form-card" id="formCard">
+      <!-- Optional context fields -->
+      <div class="field-row">
+        <div class="field">
+          <label>Tribal Nation / Organization <span class="optional-tag">optional</span></label>
+          <select id="f-nation">
+            <option value="">Select or skip</option>
+            <option>Lummi Nation (LIBC)</option>
+            <option>Northwest Indian College (NWIC)</option>
+            <option>Nooksack Indian Tribe</option>
+            <option>Samish Indian Nation</option>
+            <option>Upper Skagit Indian Tribe</option>
+            <option>Swinomish Indian Tribal Community</option>
+            <option>Tulalip Tribes</option>
+            <option>Sauk-Suiattle Indian Tribe</option>
+            <option>Stillaguamish Tribe</option>
+            <option>Suquamish Tribe</option>
+            <option>Other Washington Tribe</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Department <span class="optional-tag">optional</span></label>
+          <select id="f-dept">
+            <option value="">Select or skip</option>
+            <option>Administration / General Manager</option>
+            <option>Finance / Accounting</option>
+            <option>Human Resources</option>
+            <option>Enrollment</option>
+            <option>Education</option>
+            <option>Housing</option>
+            <option>Health / Medical</option>
+            <option>Behavioral Health</option>
+            <option>Natural Resources / Fisheries</option>
+            <option>Planning / Public Works</option>
+            <option>Tribal Court / Justice</option>
+            <option>Social Services</option>
+            <option>Information Technology</option>
+            <option>Communications</option>
+            <option>Grants / Compliance</option>
+            <option>Elder Services</option>
+            <option>Youth Programs</option>
+            <option>Other</option>
+          </select>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Job role / title <span class="optional-tag">optional</span></label>
+          <input type="text" id="f-role" placeholder="e.g. Grants Coordinator, Housing Manager..." />
+        </div>
+        <div class="field">
+          <label>Name <span class="optional-tag">optional</span></label>
+          <input type="text" id="f-name" placeholder="First name or anonymous" />
+        </div>
+      </div>
+
+      <div class="divider-label"><span>The three questions that matter</span></div>
+
+      <!-- Q1 -->
+      <div class="q-block">
+        <div class="q-label">
+          <span class="q-number">1</span>
+          <span>What task takes you the most time each week that feels like it shouldn't?</span>
+        </div>
+        <div class="q-hint">Think about repetitive work, manual re-entry, chasing information across spreadsheets or emails.</div>
+        <div class="field">
+          <textarea id="f-q1" placeholder="e.g. I spend hours every Monday manually updating a spreadsheet that five people then email back and forth..."></textarea>
+        </div>
+      </div>
+
+      <!-- Q2 -->
+      <div class="q-block">
+        <div class="q-label">
+          <span class="q-number">2</span>
+          <span>What information do you find yourself hunting for that should be easy to find?</span>
+        </div>
+        <div class="q-hint">Grant deadlines, application statuses, member records, approval chains — anything that takes too many steps to locate.</div>
+        <div class="field">
+          <textarea id="f-q2" placeholder="e.g. I have to call three different people to find out where a housing application is in the approval process..."></textarea>
+        </div>
+      </div>
+
+      <!-- Q3 -->
+      <div class="q-block">
+        <div class="q-label">
+          <span class="q-number">3</span>
+          <span>If you could fix one thing about the tools or software you use right now, what would it be?</span>
+        </div>
+        <div class="q-hint">Could be a missing feature, a broken process, or just something that's frustratingly manual.</div>
+        <div class="field">
+          <textarea id="f-q3" placeholder="e.g. Our current system can't track which grants are due when without looking at a separate spreadsheet..."></textarea>
+        </div>
+      </div>
+
+      <!-- Callback request -->
+      <div class="callback-block">
+        <label class="checkbox-row">
+          <input type="checkbox" id="f-callback" onchange="toggleCallback(this)" />
+          <div>
+            <div class="checkbox-label">I'd like a callback to discuss this further</div>
+            <div class="checkbox-sub">A Salish Code team member will reach out within 2 business days — no pressure, no sales pitch.</div>
+          </div>
+        </label>
+        <div class="callback-contact" id="callbackContact">
+          <div class="field-row" style="margin-top:0.75rem;">
+            <div class="field">
+              <label>Best phone number <span class="optional-tag">or leave blank</span></label>
+              <input type="tel" id="f-phone" placeholder="(360) 555-0100" />
+            </div>
+            <div class="field">
+              <label>Email address <span class="optional-tag">or leave blank</span></label>
+              <input type="email" id="f-email" placeholder="you@lummi-nsn.gov" />
+            </div>
+          </div>
+          <div class="field" style="margin-top:10px;">
+            <label>Best time to reach you <span class="optional-tag">optional</span></label>
+            <input type="text" id="f-calltime" placeholder="e.g. Mornings, Tuesday afternoons..." />
+          </div>
+        </div>
+      </div>
+
+      <div class="submit-row">
+        <button class="btn-submit" onclick="submitSurvey()">Submit response</button>
+        <p class="privacy-note">Responses are used only to prioritize tool development. We do not share or sell your information.</p>
+      </div>
+    </div>
+
+    <!-- Success -->
+    <div class="success-card" id="successCard">
+      <div class="success-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
+          <path d="M5 13l4 4L19 7"/>
+        </svg>
+      </div>
+      <div class="success-title" id="successTitle">Thank you — we got it.</div>
+      <p class="success-sub" id="successSub">Your response helps us understand where to focus. If a tool gets built that addresses what you described, we'll reach out to early users first.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── FOOTER ────────────────────────────────────── -->
+<footer class="footer">
+  <div class="footer-name">Salish Code LLC</div>
+  <div class="footer-sub">Technology for Tribal Governments &amp; Institutions · Bellingham, WA</div>
+</footer>
+
+<!-- ── ADMIN TOGGLE ──────────────────────────────── -->
+<button class="admin-toggle" onclick="openAdmin()">Analytics</button>
+
+<div class="admin-overlay" id="adminOverlay" onclick="closeAdminIfOutside(event)">
+  <div class="admin-panel" id="adminPanel">
+    <div class="admin-header">
+      <span class="admin-title">Response Analytics</span>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <button class="btn-export" onclick="exportCSV()">Export CSV</button>
+        <button class="btn-clear" onclick="clearData()">Clear</button>
+        <button class="admin-close" onclick="closeAdmin()">&#x2715;</button>
+      </div>
+    </div>
+    <div id="adminContent"></div>
+  </div>
+</div>
+
+<script>
+const STORAGE_KEY = 'sc_survey_responses';
+
+function getResponses() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch(e) { return []; }
+}
+function saveResponses(arr) {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(arr)); } catch(e) {}
+}
+
+function toggleCallback(cb) {
+  document.getElementById('callbackContact').classList.toggle('show', cb.checked);
+}
+
+function submitSurvey() {
+  const q1 = document.getElementById('f-q1').value.trim();
+  const q2 = document.getElementById('f-q2').value.trim();
+  const q3 = document.getElementById('f-q3').value.trim();
+  if (!q1 && !q2 && !q3) {
+    alert('Please answer at least one of the three questions.');
+    return;
+  }
+  const wantsCallback = document.getElementById('f-callback').checked;
+  const phone = document.getElementById('f-phone').value.trim();
+  const email = document.getElementById('f-email').value.trim();
+  const calltime = document.getElementById('f-calltime').value.trim();
+
+  if (wantsCallback && !phone && !email) {
+    alert('Please add a phone number or email so we can reach you.');
+    return;
+  }
+
+  const entry = {
+    id: Date.now(),
+    ts: new Date().toISOString(),
+    nation: document.getElementById('f-nation').value || 'Not specified',
+    dept: document.getElementById('f-dept').value || 'Not specified',
+    role: document.getElementById('f-role').value || '',
+    name: document.getElementById('f-name').value || 'Anonymous',
+    q1, q2, q3,
+    callback: wantsCallback,
+    phone: phone || '',
+    email: email || '',
+    calltime: calltime || '',
+  };
+  const arr = getResponses();
+  arr.push(entry);
+  saveResponses(arr);
+
+  // Post to Netlify Forms
+  const formData = new URLSearchParams();
+  formData.append('form-name', 'community-survey');
+  formData.append('nation', entry.nation);
+  formData.append('dept', entry.dept);
+  formData.append('role', entry.role);
+  formData.append('name', entry.name);
+  formData.append('q1', entry.q1);
+  formData.append('q2', entry.q2);
+  formData.append('q3', entry.q3);
+  formData.append('callback', entry.callback ? 'Yes' : 'No');
+  formData.append('phone', entry.phone || '');
+  formData.append('email', entry.email || '');
+  formData.append('calltime', entry.calltime || '');
+  fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: formData.toString() }).catch(() => {});
+
+  document.getElementById('formCard').style.display = 'none';
+
+  if (wantsCallback) {
+    document.getElementById('successTitle').textContent = "We'll be in touch.";
+    document.getElementById('successSub').textContent = "Your response is saved and a callback request has been noted. Expect to hear from someone at Salish Code within 2 business days.";
+  }
+
+  document.getElementById('successCard').classList.add('show');
+  window.scrollTo({ top: document.getElementById('survey').offsetTop - 60, behavior: 'smooth' });
+}
+
+function buildChart(title, data, maxCount) {
+  if (!data.length) return '';
+  const sorted = [...data].sort((a,b) => b.count - a.count).slice(0, 8);
+  const bars = sorted.map(item => {
+    const pct = maxCount > 0 ? Math.round((item.count / maxCount) * 100) : 0;
+    return `<div class="bar-row">
+      <span class="bar-label" title="${item.label}">${item.label}</span>
+      <div class="bar-track"><div class="bar-fill" style="width:${Math.max(pct,8)}%">${item.count}</div></div>
+      <span class="bar-count">${item.count}</span>
+    </div>`;
+  }).join('');
+  return `<div class="chart-section"><div class="chart-title">${title}</div>${bars}</div>`;
+}
+
+function renderAdmin() {
+  const responses = getResponses();
+  const total = responses.length;
+
+  const nationCounts = {};
+  const deptCounts = {};
+  responses.forEach(r => {
+    if (r.nation && r.nation !== 'Not specified') nationCounts[r.nation] = (nationCounts[r.nation]||0)+1;
+    if (r.dept && r.dept !== 'Not specified') deptCounts[r.dept] = (deptCounts[r.dept]||0)+1;
+  });
+
+  const nationData = Object.entries(nationCounts).map(([label,count]) => ({label,count}));
+  const deptData = Object.entries(deptCounts).map(([label,count]) => ({label,count}));
+  const maxNation = nationData.length ? Math.max(...nationData.map(d=>d.count)) : 1;
+  const maxDept = deptData.length ? Math.max(...deptData.map(d=>d.count)) : 1;
+
+  const recentList = [...responses].reverse().slice(0, 10).map(r => `
+    <div class="response-item">
+      <div class="r-meta">
+        ${r.nation !== 'Not specified' ? `<span class="r-tag">${r.nation}</span>` : ''}
+        ${r.dept !== 'Not specified' ? `<span class="r-tag">${r.dept}</span>` : ''}
+        ${r.role ? `<span class="r-tag">${r.role}</span>` : ''}
+        ${r.callback ? `<span class="callback-flag">Callback requested</span>` : ''}
+        <span class="r-time">${new Date(r.ts).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}</span>
+      </div>
+      ${r.callback ? `<div style="font-size:12px;color:var(--ink-mid);margin-bottom:8px;padding:6px 10px;background:var(--gold-pale);border-radius:6px;">
+        ${r.phone ? `Phone: <strong>${r.phone}</strong>` : ''}
+        ${r.phone && r.email ? ' &nbsp;·&nbsp; ' : ''}
+        ${r.email ? `Email: <strong>${r.email}</strong>` : ''}
+        ${r.calltime ? ` &nbsp;·&nbsp; Best time: ${r.calltime}` : ''}
+      </div>` : ''}
+      <div class="r-answers">
+        ${r.q1 ? `<div class="r-q">Time sink:</div><div class="r-a">${r.q1}</div>` : ''}
+        ${r.q2 ? `<div class="r-q">Hard to find:</div><div class="r-a">${r.q2}</div>` : ''}
+        ${r.q3 ? `<div class="r-q">Fix one thing:</div><div class="r-a">${r.q3}</div>` : ''}
+      </div>
+    </div>
+  `).join('');
+
+  const callbacks = responses.filter(r => r.callback).length;
+
+  document.getElementById('adminContent').innerHTML = `
+    <div class="analytics-grid">
+      <div class="a-stat"><div class="a-stat-label">Total responses</div><div class="a-stat-value">${total}</div></div>
+      <div class="a-stat"><div class="a-stat-label">Callback requests</div><div class="a-stat-value" style="color:var(--gold)">${callbacks}</div></div>
+      <div class="a-stat"><div class="a-stat-label">Nations represented</div><div class="a-stat-value">${Object.keys(nationCounts).length}</div></div>
+    </div>
+    ${total === 0 ? '<div class="empty-state">No responses yet — share the page to start collecting.</div>' : ''}
+    ${buildChart('Responses by department', deptData, maxDept)}
+    ${buildChart('Responses by tribal nation', nationData, maxNation)}
+    ${total > 0 ? `<div class="chart-title" style="margin-top:1.5rem;">Recent responses</div><div class="responses-list">${recentList}</div>` : ''}
+  `;
+}
+
+function openAdmin() {
+  renderAdmin();
+  document.getElementById('adminOverlay').classList.add('open');
+}
+function closeAdmin() {
+  document.getElementById('adminOverlay').classList.remove('open');
+}
+function closeAdminIfOutside(e) {
+  if (e.target === document.getElementById('adminOverlay')) closeAdmin();
+}
+
+function exportCSV() {
+  const responses = getResponses();
+  if (!responses.length) { alert('No responses to export yet.'); return; }
+  const headers = ['Date','Nation','Department','Role','Name','Callback Requested','Phone','Email','Best Time','Q1 - Time sink','Q2 - Hard to find','Q3 - Fix one thing'];
+  const rows = responses.map(r => [
+    new Date(r.ts).toLocaleDateString(),
+    r.nation, r.dept, r.role, r.name,
+    r.callback ? 'Yes' : 'No',
+    r.phone || '', r.email || '', r.calltime || '',
+    r.q1, r.q2, r.q3
+  ].map(v => `"${(v||'').replace(/"/g,'""')}"`).join(','));
+  const csv = [headers.join(','), ...rows].join('\n');
+  const a = document.createElement('a');
+  a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
+  a.download = 'salishcode-survey-responses.csv';
+  a.click();
+}
+
+function clearData() {
+  if (confirm('Delete all survey responses? This cannot be undone.')) {
+    localStorage.removeItem(STORAGE_KEY);
+    renderAdmin();
+  }
+}
+</script>
+</body>
+</html>

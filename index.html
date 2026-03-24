@@ -1,135 +1,681 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-GHVN4XLNRJ"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-GHVN4XLNRJ');
-</script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Salish Code LLC - Software Development & Web Solutions">
-    <title>Salish Code LLC</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Salish Code LLC — Native-owned technology built for tribal governments and institutions in the Pacific Northwest." />
+  <title>Salish Code LLC</title>
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-GHVN4XLNRJ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-GHVN4XLNRJ');
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --forest:      #1C3A2E;
+      --forest-mid:  #2A5240;
+      --forest-lt:   #3A6E54;
+      --sage:        #7A9E8A;
+      --sage-lt:     #B8D4C4;
+      --sage-pale:   #E8F2EC;
+      --gold:        #C4982A;
+      --gold-lt:     #DDB84A;
+      --gold-pale:   #FAF3DC;
+      --offwhite:    #F6F3EE;
+      --cream:       #FDFBF7;
+      --ink:         #161210;
+      --ink-mid:     #3A2E24;
+      --ink-muted:   #6B5C4A;
+      --ink-faint:   #A8967E;
+      --border:      rgba(28,58,46,0.10);
+      --border-md:   rgba(28,58,46,0.18);
+      --shadow:      0 1px 4px rgba(16,12,8,0.07), 0 4px 16px rgba(16,12,8,0.04);
+      --shadow-lg:   0 2px 12px rgba(16,12,8,0.09), 0 16px 40px rgba(16,12,8,0.06);
+      --radius:      12px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--offwhite);
+      color: var(--ink);
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    /* ── NAV ───────────────────────────────────────── */
+    .nav {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--forest);
+      border-bottom: 2px solid var(--forest-mid);
+    }
+    .nav-inner {
+      max-width: 1100px; margin: 0 auto;
+      padding: 0 2rem; height: 58px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo {
+      font-family: 'Fraunces', serif;
+      font-size: 18px; font-weight: 500;
+      color: #fff; text-decoration: none; letter-spacing: 0.01em;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .nav-logo-mark {
+      width: 30px; height: 30px; border-radius: 6px;
+      background: var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px; font-weight: 600; color: var(--forest);
+    }
+    .nav-links {
+      display: flex; gap: 2px; list-style: none; align-items: center;
+    }
+    .nav-links a {
+      font-size: 13px; font-weight: 500;
+      color: rgba(255,255,255,0.65);
+      text-decoration: none; padding: 6px 12px;
+      border-radius: 6px;
+      transition: all 0.15s;
+      letter-spacing: 0.02em;
+    }
+    .nav-links a:hover { color: #fff; background: rgba(255,255,255,0.08); }
+    .nav-links a.active { color: var(--gold); }
+    .nav-cta {
+      background: var(--gold); color: var(--forest) !important;
+      font-weight: 600 !important; border-radius: 6px;
+      padding: 7px 16px !important;
+      transition: background 0.15s !important;
+    }
+    .nav-cta:hover { background: var(--gold-lt) !important; }
+
+    /* ── HERO ──────────────────────────────────────── */
+    .hero {
+      background: var(--forest);
+      padding: 5rem 2rem 5.5rem;
+      position: relative; overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse at 10% 90%, rgba(122,158,138,0.13) 0%, transparent 55%),
+        radial-gradient(ellipse at 90% 10%, rgba(196,152,42,0.09) 0%, transparent 50%);
+    }
+    .hero-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 340px;
+      gap: 4rem; align-items: center; position: relative; z-index: 1;
+    }
+    .hero-eyebrow {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--gold);
+      margin-bottom: 1.25rem;
+    }
+    .hero-tagline {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(30px, 4vw, 46px);
+      font-weight: 500; line-height: 1.2;
+      color: #fff; margin-bottom: 1.25rem;
+    }
+    .hero-tagline em { font-style: italic; color: var(--sage-lt); }
+    .hero-sub {
+      font-size: 16px; color: rgba(255,255,255,0.60);
+      line-height: 1.75; max-width: 500px; margin-bottom: 2.25rem;
+    }
+    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+    .btn-primary {
+      background: var(--gold); color: var(--forest);
+      border: none; border-radius: 8px;
+      padding: 12px 24px; font-family: 'DM Sans', sans-serif;
+      font-size: 14px; font-weight: 600; cursor: pointer;
+      text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+      transition: all 0.2s; letter-spacing: 0.01em;
+    }
+    .btn-primary:hover { background: var(--gold-lt); transform: translateY(-1px); box-shadow: 0 4px 14px rgba(196,152,42,0.3); }
+    .btn-ghost {
+      background: none; color: rgba(255,255,255,0.75);
+      border: 1px solid rgba(255,255,255,0.2); border-radius: 8px;
+      padding: 12px 24px; font-family: 'DM Sans', sans-serif;
+      font-size: 14px; font-weight: 500; cursor: pointer;
+      text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+      transition: all 0.2s;
+    }
+    .btn-ghost:hover { border-color: rgba(255,255,255,0.4); color: #fff; background: rgba(255,255,255,0.07); }
+
+    /* ── HERO CARD ─────────────────────────────────── */
+    .hero-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 16px;
+      padding: 2rem;
+      text-align: center;
+    }
+    .hero-photo {
+      width: 110px; height: 110px; border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--gold);
+      margin: 0 auto 1.25rem;
+      display: block;
+      background: var(--forest-mid);
+    }
+    .hero-quote {
+      font-family: 'Fraunces', serif;
+      font-size: 14px; font-style: italic;
+      color: rgba(255,255,255,0.80);
+      line-height: 1.7; margin-bottom: 1rem;
+    }
+    .hero-quote-attr {
+      font-size: 12px; color: rgba(255,255,255,0.40);
+      letter-spacing: 0.04em;
+    }
+    .hero-quote-attr strong { color: rgba(255,255,255,0.65); font-weight: 500; }
+
+    /* ── TRUST BAR ─────────────────────────────────── */
+    .trust-bar {
+      background: var(--forest-mid);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      border-bottom: 3px solid var(--gold);
+      padding: 0.85rem 2rem;
+    }
+    .trust-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; gap: 2rem; flex-wrap: wrap; align-items: center;
+    }
+    .trust-item {
+      font-size: 12px; color: rgba(255,255,255,0.50);
+      display: flex; align-items: center; gap: 6px;
+    }
+    .trust-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
+
+    /* ── SECTION SHARED ────────────────────────────── */
+    .section { padding: 4.5rem 2rem; }
+    .section-inner { max-width: 1100px; margin: 0 auto; }
+    .section-label {
+      font-size: 11px; font-weight: 600; color: var(--forest-lt);
+      letter-spacing: 0.10em; text-transform: uppercase; margin-bottom: 0.6rem;
+    }
+    .section-title {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(22px, 3vw, 30px);
+      font-weight: 500; color: var(--ink); margin-bottom: 0.75rem; line-height: 1.25;
+    }
+    .section-sub {
+      font-size: 15px; color: var(--ink-muted); max-width: 560px; line-height: 1.7;
+    }
+
+    /* ── WHO WE SERVE ──────────────────────────────── */
+    .serve-section { background: var(--cream); }
+    .serve-grid {
+      display: grid; grid-template-columns: repeat(3, minmax(0,1fr));
+      gap: 16px; margin-top: 2.5rem;
+    }
+    .serve-card {
+      background: var(--offwhite);
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--forest);
+      border-radius: var(--radius);
+      padding: 1.5rem; box-shadow: var(--shadow);
+    }
+    .serve-card-label { font-size: 11px; font-weight: 600; color: var(--ink-faint); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; }
+    .serve-card-name { font-family: 'Fraunces', serif; font-size: 18px; color: var(--ink); margin-bottom: 8px; }
+    .serve-card-body { font-size: 13px; color: var(--ink-muted); line-height: 1.65; }
+
+    /* ── SOLUTIONS PREVIEW ─────────────────────────── */
+    .solutions-section { background: var(--offwhite); }
+    .solutions-grid {
+      display: grid; grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 16px; margin-top: 2.5rem;
+    }
+    .sol-card {
+      background: var(--cream);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem 1.75rem;
+      box-shadow: var(--shadow);
+      display: flex; flex-direction: column; gap: 10px;
+      transition: box-shadow 0.15s;
+    }
+    .sol-card:hover { box-shadow: var(--shadow-lg); }
+    .sol-status {
+      display: inline-block; font-size: 10px; font-weight: 700;
+      padding: 3px 10px; border-radius: 20px;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      align-self: flex-start;
+    }
+    .status-pilot { background: var(--gold-pale); color: #7A5500; }
+    .status-building { background: var(--sage-pale); color: var(--forest); }
+    .status-available { background: #E4F5EC; color: #0F4D25; }
+    .sol-title { font-family: 'Fraunces', serif; font-size: 19px; color: var(--ink); }
+    .sol-body { font-size: 13px; color: var(--ink-muted); line-height: 1.65; }
+    .sol-link {
+      font-size: 13px; font-weight: 600; color: var(--forest-lt);
+      text-decoration: none; display: inline-flex; align-items: center; gap: 5px;
+      margin-top: 4px;
+    }
+    .sol-link:hover { color: var(--forest); }
+
+    /* ── ABOUT ─────────────────────────────────────── */
+    .about-section { background: var(--cream); }
+    .about-grid {
+      display: grid; grid-template-columns: 260px 1fr;
+      gap: 3.5rem; align-items: start; margin-top: 2.5rem;
+    }
+    .about-photo-wrap { text-align: center; }
+    .about-photo {
+      width: 180px; height: 180px; border-radius: 50%;
+      object-fit: cover; border: 4px solid var(--gold);
+      margin-bottom: 1rem; background: var(--offwhite);
+    }
+    .about-name { font-family: 'Fraunces', serif; font-size: 18px; color: var(--ink); }
+    .about-role { font-size: 13px; color: var(--ink-muted); margin-top: 3px; line-height: 1.5; }
+    .about-body p { font-size: 15px; color: var(--ink-mid); line-height: 1.75; margin-bottom: 1rem; }
+    .about-body p:last-child { margin-bottom: 0; }
+    .about-tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 1.25rem 0; }
+    .about-tag {
+      background: var(--sage-pale); color: var(--forest);
+      font-size: 12px; font-weight: 500; padding: 4px 12px;
+      border-radius: 20px; border: 1px solid rgba(28,58,46,0.12);
+    }
+    .about-links { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 1.25rem; }
+    .about-link {
+      display: inline-flex; align-items: center; gap: 7px;
+      font-size: 13px; font-weight: 500; color: var(--forest-lt);
+      text-decoration: none;
+      border: 1px solid var(--border-md);
+      border-radius: 8px; padding: 7px 14px;
+      transition: all 0.15s; background: var(--offwhite);
+    }
+    .about-link:hover { background: var(--sage-pale); border-color: var(--sage); }
+
+    /* ── SURVEY CTA ────────────────────────────────── */
+    .survey-cta-section {
+      background: var(--forest);
+      padding: 4rem 2rem;
+    }
+    .survey-cta-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr auto;
+      gap: 2rem; align-items: center;
+    }
+    .survey-cta-title {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(20px, 2.5vw, 26px);
+      font-weight: 500; color: #fff; margin-bottom: 0.5rem;
+    }
+    .survey-cta-sub { font-size: 14px; color: rgba(255,255,255,0.55); line-height: 1.6; }
+
+    /* ── CONTACT ───────────────────────────────────── */
+    .contact-section { background: var(--offwhite); }
+    .contact-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 3rem; margin-top: 2.5rem; align-items: start;
+    }
+    .contact-info p { font-size: 15px; color: var(--ink-muted); line-height: 1.75; margin-bottom: 1.5rem; }
+    .contact-detail {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 14px; color: var(--ink-mid); margin-bottom: 10px;
+    }
+    .contact-detail svg { color: var(--forest-lt); flex-shrink: 0; }
+    .contact-detail a { color: var(--forest-lt); text-decoration: none; }
+    .contact-detail a:hover { text-decoration: underline; }
+    .contact-form-wrap {
+      background: var(--cream);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.75rem;
+      box-shadow: var(--shadow);
+    }
+    .cf-title { font-family: 'Fraunces', serif; font-size: 18px; color: var(--ink); margin-bottom: 1.25rem; }
+    .cf-field { margin-bottom: 12px; }
+    .cf-field label { font-size: 11px; font-weight: 600; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.07em; display: block; margin-bottom: 5px; }
+    .cf-field input, .cf-field textarea, .cf-field select {
+      width: 100%; padding: 9px 11px; font-size: 14px;
+      background: var(--offwhite); border: 1px solid var(--border-md);
+      border-radius: 7px; color: var(--ink);
+      font-family: 'DM Sans', sans-serif; outline: none;
+      transition: border-color 0.15s;
+    }
+    .cf-field input:focus, .cf-field textarea:focus, .cf-field select:focus {
+      border-color: var(--forest-lt); background: var(--cream);
+    }
+    .cf-field textarea { height: 90px; resize: vertical; line-height: 1.6; }
+    .btn-submit {
+      width: 100%; background: var(--forest); border: none;
+      border-radius: 8px; padding: 12px;
+      font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600;
+      color: #fff; cursor: pointer; transition: all 0.2s; margin-top: 4px;
+    }
+    .btn-submit:hover { background: var(--forest-mid); }
+    .cf-success {
+      text-align: center; padding: 1.5rem 0; display: none;
+    }
+    .cf-success-icon {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: var(--forest); margin: 0 auto 0.75rem;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .cf-success p { font-size: 14px; color: var(--ink-muted); }
+
+    /* ── FOOTER ────────────────────────────────────── */
+    footer {
+      background: var(--forest);
+      border-top: 3px solid var(--gold);
+      padding: 2rem;
+    }
+    .footer-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 12px;
+    }
+    .footer-left { font-family: 'Fraunces', serif; }
+    .footer-name { font-size: 16px; color: rgba(255,255,255,0.80); }
+    .footer-sub { font-size: 12px; color: rgba(255,255,255,0.35); margin-top: 2px; }
+    .footer-copy { font-size: 12px; color: rgba(255,255,255,0.30); }
+    .footer-links { display: flex; gap: 12px; align-items: center; }
+    .footer-links a { color: rgba(255,255,255,0.45); transition: color 0.15s; }
+    .footer-links a:hover { color: rgba(255,255,255,0.80); }
+
+    /* ── RESPONSIVE ────────────────────────────────── */
+    @media (max-width: 800px) {
+      .hero-inner { grid-template-columns: 1fr; }
+      .hero-card { display: none; }
+      .serve-grid { grid-template-columns: 1fr; }
+      .solutions-grid { grid-template-columns: 1fr; }
+      .about-grid { grid-template-columns: 1fr; }
+      .about-photo-wrap { display: flex; align-items: center; gap: 1.25rem; text-align: left; }
+      .contact-grid { grid-template-columns: 1fr; }
+      .survey-cta-inner { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
-    <button id="mode-toggle" style="position:fixed;top:20px;right:20px;z-index:200;padding:8px 16px;border-radius:8px;border:none;background:#14B8A6;color:#fff;font-weight:600;cursor:pointer;box-shadow:0 2px 8px rgba(20,184,166,0.15);">🌙 Dark Mode</button>
-    <header>
-        <nav class="container">
-            <div class="logo">Salish Code</div>
-            <ul class="nav-links">
-                <li><a href="#services">Services</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
 
-    <main>
-        <section class="hero">
-            <div class="container">
-                <h1>Building Digital Solutions</h1>
-                <p class="hero-subtitle">Software development and web solutions for your business</p>
-                <a href="#contact" class="btn btn-primary">Get in Touch</a>
-            </div>
-        </section>
+<!-- ── NAV ──────────────────────────────────────── -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <span class="nav-logo-mark">S</span>
+      Salish Code
+    </a>
+    <ul class="nav-links">
+      <li><a href="solutions.html">Solutions</a></li>
+      <li><a href="pricing.html">Pricing</a></li>
+      <li><a href="survey.html">Community Survey</a></li>
+      <li><a href="#contact" class="nav-cta">Get in Touch</a></li>
+    </ul>
+  </div>
+</nav>
 
-        <section id="services" class="services">
-            <div class="container">
-                <h2>Services</h2>
-                <div class="services-grid">
-                    <div class="service-card">
-                        <div class="service-icon">🌐</div>
-                        <h3>Web Development</h3>
-                        <p>Custom websites and web applications built with modern technologies.</p>
-                    </div>
-                    <div class="service-card">
-                        <div class="service-icon">⚙️</div>
-                        <h3>Software Solutions</h3>
-                        <p>Tailored software to streamline your business operations.</p>
-                    </div>
-                    <div class="service-card">
-                        <div class="service-icon">📱</div>
-                        <h3>Consulting</h3>
-                        <p>Technical guidance and strategy for your digital projects.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
+<!-- ── HERO ─────────────────────────────────────── -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-eyebrow">Native-Owned · Bellingham, WA</div>
+      <h1 class="hero-tagline">
+        Native solutions<br>
+        <em>for Native communities.</em>
+      </h1>
+      <p class="hero-sub">
+        Salish Code builds software specifically for tribal governments, tribal colleges,
+        and Indigenous institutions — tools that reflect your workflows, your language,
+        and your values. Built by someone who works inside these communities, not just
+        alongside them.
+      </p>
+      <div class="hero-actions">
+        <a href="solutions.html" class="btn-primary">
+          See our solutions
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 7h10M8 3l4 4-4 4"/></svg>
+        </a>
+        <a href="survey.html" class="btn-ghost">Take the community survey</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-card">
+        <img src="profile.jpg" alt="Richard, Founder of Salish Code" class="hero-photo" />
+        <p class="hero-quote">
+          "Our mission is to strengthen tribal sovereignty through technology —
+          delivering software, data solutions, and digital tools that serve our
+          communities' needs, built by the people they serve."
+        </p>
+        <p class="hero-quote-attr"><strong>Richard Jefferson</strong> · Founder</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-        <section id="about" class="about">
-            <div class="container">
-                <h2>About</h2>
-                <div class="about-content">
-                    <img src="profile.jpg" alt="Richard - Founder of Salish Code" class="profile-photo">
-                    <div class="about-text">
-                        <p class="mission-statement"><em>"Our mission is to strengthen tribal sovereignty through technology — delivering software, data solutions, and digital tools that serve our communities' needs, built by the people they serve."</em></p>
-                        <p>Salish Code LLC is a software development company focused on delivering quality digital solutions. We work with businesses to build websites, applications, and custom software that solve real problems.</p>
-                        <a href="https://www.linkedin.com/in/salishcode/" target="_blank" rel="noopener" class="linkedin-link">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
-                            Connect on LinkedIn
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </section>
+<!-- ── TRUST BAR ─────────────────────────────────── -->
+<div class="trust-bar">
+  <div class="trust-inner">
+    <span class="trust-item"><span class="trust-dot"></span>Currently working with Northwest Indian College (NWIC)</span>
+    <span class="trust-item"><span class="trust-dot"></span>Serving tribal nations of the Pacific Northwest</span>
+    <span class="trust-item"><span class="trust-dot"></span>CS graduate, Western Washington University 2024</span>
+    <span class="trust-item"><span class="trust-dot"></span>Native-owned and operated</span>
+  </div>
+</div>
 
-        <section id="contact" class="contact">
-            <div class="container">
-                <h2>Contact</h2>
-                <p>Ready to start your project? Reach out and let's talk.</p>
-                <a href="mailto:contact@salishcode.com" class="btn btn-primary">contact@salishcode.com</a>
-            </div>
-        </section>
-    </main>
+<!-- ── WHO WE SERVE ──────────────────────────────── -->
+<section class="section serve-section">
+  <div class="section-inner">
+    <div class="section-label">Who we serve</div>
+    <h2 class="section-title">Built for institutions that existing software ignores</h2>
+    <p class="section-sub">Off-the-shelf tools aren't designed for tribal governments. We build for the organizations that Banner is too expensive for and Google Forms is too limited for.</p>
+    <div class="serve-grid">
+      <div class="serve-card">
+        <div class="serve-card-label">Primary</div>
+        <div class="serve-card-name">Tribal Governments</div>
+        <div class="serve-card-body">Tribal councils, LIBC-style governing bodies, and departments handling grants, enrollment, housing, and social services. Your workflows are unique — your software should be too.</div>
+      </div>
+      <div class="serve-card">
+        <div class="serve-card-label">Primary</div>
+        <div class="serve-card-name">Tribal Colleges</div>
+        <div class="serve-card-body">TCUs and community colleges that can't afford enterprise systems like Ellucian. Degree planners, advising tools, and student tracking built to your academic calendar and program structures.</div>
+      </div>
+      <div class="serve-card">
+        <div class="serve-card-label">Extended</div>
+        <div class="serve-card-name">Indigenous Organizations</div>
+        <div class="serve-card-body">Cultural programs, language revitalization efforts, community health initiatives. If you're doing the work of sovereignty and you need technology to support it, we want to hear from you.</div>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <p>&copy; 2026 Salish Code LLC. All rights reserved.</p>
-                <div class="social-links">
-                    <a href="https://www.linkedin.com/in/richard-jefferson-whn-la-luk/" target="_blank" rel="noopener" aria-label="LinkedIn">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
-                    </a>
-                    <a href="https://github.com/TipsyCanoe" target="_blank" rel="noopener" aria-label="GitHub">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-                    </a>
-                </div>
-            </div>
+<!-- ── SOLUTIONS PREVIEW ─────────────────────────── -->
+<section class="section solutions-section">
+  <div class="section-inner">
+    <div class="section-label">What we build</div>
+    <h2 class="section-title">Purpose-built tools, not adapted ones</h2>
+    <p class="section-sub">Every product starts from a real problem identified inside a tribal institution. No guessing, no generic templates.</p>
+    <div class="solutions-grid">
+      <div class="sol-card">
+        <span class="sol-status status-pilot">Available for pilot</span>
+        <div class="sol-title">Grant Management Tracker</div>
+        <div class="sol-body">A pipeline tool for tribal grants coordinators to track federal grants from identification through award. Replaces the five-spreadsheet, three-email-chain system most departments are running today.</div>
+        <a href="solutions.html#grants" class="sol-link">Learn more →</a>
+      </div>
+      <div class="sol-card">
+        <span class="sol-status status-building">In development</span>
+        <div class="sol-title">Degree Planner for Tribal Colleges</div>
+        <div class="sol-body">A self-contained academic advising tool built for small tribal colleges. Drag-and-drop scheduling, credit tracking, and multiple pathways — no Banner license required.</div>
+        <a href="solutions.html#degree" class="sol-link">Learn more →</a>
+      </div>
+      <div class="sol-card">
+        <span class="sol-status status-building">In development</span>
+        <div class="sol-title">Tribal Member Services Portal</div>
+        <div class="sol-body">Enrollment verification, document requests, and community announcements in one place. Built around tribal enrollment workflows, not adapted from a generic constituent management system.</div>
+        <a href="solutions.html#portal" class="sol-link">Learn more →</a>
+      </div>
+      <div class="sol-card">
+        <span class="sol-status status-available">Available</span>
+        <div class="sol-title">Custom Development & Consulting</div>
+        <div class="sol-body">Have a specific problem that doesn't fit a packaged tool? We scope, design, and build custom software for tribal departments. Database design, web applications, workflow automation.</div>
+        <a href="#contact" class="sol-link">Get in touch →</a>
+      </div>
+    </div>
+    <div style="margin-top:1.5rem;">
+      <a href="solutions.html" class="btn-primary" style="display:inline-flex;">View all solutions</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── ABOUT ─────────────────────────────────────── -->
+<section class="section about-section" id="about">
+  <div class="section-inner">
+    <div class="section-label">About Salish Code</div>
+    <h2 class="section-title">Technology from inside the community</h2>
+    <div class="about-grid">
+      <div class="about-photo-wrap">
+        <img src="profile.jpg" alt="Richard Jefferson, Founder of Salish Code" class="about-photo" />
+        <div class="about-name">Richard Jefferson</div>
+        <div class="about-role">Founder &amp; Developer<br>Salish Code LLC</div>
+      </div>
+      <div class="about-body">
+        <p>
+          Salish Code was founded on the understanding that tribal governments and Indigenous
+          institutions are chronically underserved by the technology industry. Enterprise software
+          is too expensive, generic tools don't fit tribal workflows, and outside vendors rarely
+          understand the political and cultural context they're building for.
+        </p>
+        <p>
+          I'm a CS graduate from Western Washington University (December 2024) currently working
+          in technology integration at Northwest Indian College in Bellingham, where I'm building
+          academic advising tools and supporting STEM programming — including coding workshops
+          for students at Lummi Nation School. That work directly informs everything Salish Code builds.
+        </p>
+        <p>
+          The goal is simple: build tools that tribal staff actually want to use, priced so
+          tribal governments can actually afford them, by someone who earns trust the same
+          way everyone else does — by showing up and doing the work.
+        </p>
+        <div class="about-tags">
+          <span class="about-tag">PostgreSQL</span>
+          <span class="about-tag">React</span>
+          <span class="about-tag">Python</span>
+          <span class="about-tag">HTML / JS</span>
+          <span class="about-tag">Godot</span>
+          <span class="about-tag">Data Modeling</span>
+          <span class="about-tag">Tribal Government Context</span>
         </div>
-    </footer>
+        <div class="about-links">
+          <a href="https://www.linkedin.com/in/richard-jefferson-whn-la-luk/" target="_blank" rel="noopener" class="about-link">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+            LinkedIn
+          </a>
+          <a href="https://github.com/TipsyCanoe" target="_blank" rel="noopener" class="about-link">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+            GitHub
+          </a>
+          <a href="mailto:contact@salishcode.com" class="about-link">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/></svg>
+            contact@salishcode.com
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SURVEY CTA ─────────────────────────────────── -->
+<section class="survey-cta-section">
+  <div class="survey-cta-inner">
+    <div>
+      <div class="survey-cta-title">What does your team actually need?</div>
+      <p class="survey-cta-sub">We build based on demand data, not assumptions. Fill out our 3-minute community survey and directly shape what gets built next. Request a callback and we'll follow up within two business days.</p>
+    </div>
+    <a href="survey.html" class="btn-primary" style="white-space:nowrap;">
+      Take the survey →
+    </a>
+  </div>
+</section>
+
+<!-- ── CONTACT ────────────────────────────────────── -->
+<section class="section contact-section" id="contact">
+  <div class="section-inner">
+    <div class="section-label">Get in touch</div>
+    <h2 class="section-title">Let's talk about what you need</h2>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <p>Whether you're a grants coordinator frustrated with spreadsheets, an IT director evaluating options, or a department head with a problem you can't find software for — reach out. The first conversation is always free and always useful.</p>
+        <div class="contact-detail">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/></svg>
+          <a href="mailto:contact@salishcode.com">contact@salishcode.com</a>
+        </div>
+        <div class="contact-detail">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+          Bellingham, WA · Serving the Pacific Northwest
+        </div>
+      </div>
+      <div class="contact-form-wrap">
+        <div class="cf-title">Send a message</div>
+        <form id="contactForm" name="contact" netlify netlify-honeypot="bot-field">
+          <input type="hidden" name="form-name" value="contact" />
+          <p style="display:none;"><label>Don't fill this out: <input name="bot-field" /></label></p>
+          <div class="cf-field">
+            <label>Your name</label>
+            <input type="text" name="name" placeholder="First and last name" required />
+          </div>
+          <div class="cf-field">
+            <label>Organization</label>
+            <input type="text" name="org" placeholder="e.g. Lummi Nation, NWIC..." />
+          </div>
+          <div class="cf-field">
+            <label>Email</label>
+            <input type="email" name="email" placeholder="you@yourtribe.gov" required />
+          </div>
+          <div class="cf-field">
+            <label>What can we help with?</label>
+            <textarea name="message" placeholder="Describe the problem or project you have in mind..."></textarea>
+          </div>
+          <button type="submit" class="btn-submit">Send message</button>
+        </form>
+        <div class="cf-success" id="cfSuccess">
+          <div class="cf-success-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M5 13l4 4L19 7"/></svg>
+          </div>
+          <p style="font-family:'Fraunces',serif;font-size:18px;color:var(--ink);margin-bottom:4px;">Message sent.</p>
+          <p>We'll get back to you within two business days.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ─────────────────────────────────────── -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-left">
+      <div class="footer-name">Salish Code LLC</div>
+      <div class="footer-sub">Technology for Tribal Governments &amp; Institutions</div>
+    </div>
+    <span class="footer-copy">&copy; 2026 Salish Code LLC · Bellingham, WA</span>
+    <div class="footer-links">
+      <a href="https://github.com/TipsyCanoe" target="_blank" rel="noopener" aria-label="GitHub">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+      </a>
+      <a href="https://www.linkedin.com/in/richard-jefferson-whn-la-luk/" target="_blank" rel="noopener" aria-label="LinkedIn">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+      </a>
+    </div>
+  </div>
+</footer>
+
 <script>
-const toggleBtn = document.getElementById('mode-toggle');
-const body = document.body;
-let darkMode = false;
-
-function setMode(isDark) {
-    darkMode = isDark;
-    if (darkMode) {
-        body.classList.add('dark-mode');
-        toggleBtn.textContent = '☀️ Light Mode';
-        toggleBtn.style.background = '#1F2937';
-        toggleBtn.style.color = '#14B8A6';
-    } else {
-        body.classList.remove('dark-mode');
-        toggleBtn.textContent = '🌙 Dark Mode';
-        toggleBtn.style.background = '#14B8A6';
-        toggleBtn.style.color = '#fff';
-    }
-}
-
-toggleBtn.addEventListener('click', () => setMode(!darkMode));
-
-// Optional: auto-detect system preference
-if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-    setMode(true);
-}
+  document.getElementById('contactForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const form = this;
+    fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams(new FormData(form)).toString()
+    }).then(() => {
+      form.style.display = 'none';
+      document.getElementById('cfSuccess').style.display = 'block';
+    }).catch(() => {
+      alert('Something went wrong. Please email us directly at contact@salishcode.com');
+    });
+  });
 </script>
 </body>
 </html>
