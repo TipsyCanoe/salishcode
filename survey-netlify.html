@@ -749,20 +749,11 @@ function submitSurvey() {
   saveResponses(arr);
 
   // Post to Netlify Forms
-  const formData = new URLSearchParams();
-  formData.append('form-name', 'community-survey');
-  formData.append('nation', entry.nation);
-  formData.append('dept', entry.dept);
-  formData.append('role', entry.role);
-  formData.append('name', entry.name);
-  formData.append('q1', entry.q1);
-  formData.append('q2', entry.q2);
-  formData.append('q3', entry.q3);
-  formData.append('callback', entry.callback ? 'Yes' : 'No');
-  formData.append('phone', entry.phone || '');
-  formData.append('email', entry.email || '');
-  formData.append('calltime', entry.calltime || '');
-  fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: formData.toString() }).catch(() => {});
+  fetch('/api/save-survey', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify(entry)
+}).catch(() => {});
 
   document.getElementById('formCard').style.display = 'none';
 
