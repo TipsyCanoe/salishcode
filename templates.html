@@ -636,6 +636,15 @@ function App() {
         padding:"0.6rem 1rem",
         display:"flex", flexWrap:"wrap", gap:"0.75rem", alignItems:"center",
       }}>
+        <a href="index.html" style={{
+          color:"#888", textDecoration:"none", fontSize:"0.78rem", fontWeight:500,
+          padding:"0.35rem 0.7rem", border:"1px solid #2a2a2a", borderRadius:"3px",
+          whiteSpace:"nowrap", flexShrink:0, transition:"color 0.15s, border-color 0.15s",
+        }} onMouseEnter={e=>{e.target.style.color="#fff";e.target.style.borderColor="#555"}}
+           onMouseLeave={e=>{e.target.style.color="#888";e.target.style.borderColor="#2a2a2a"}}>
+          ← Back to site
+        </a>
+        <div style={{width:"1px", height:"32px", background:"#2a2a2a", flexShrink:0}} />
         <div style={{display:"flex", gap:"0.4rem", flexWrap:"wrap"}}>
           {TEMPLATES.map((t,i)=>(
             <button key={t.id} onClick={()=>setActiveT(i)} style={{
