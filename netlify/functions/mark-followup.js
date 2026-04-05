@@ -1,4 +1,4 @@
-import { neon } from '@netlify/neon';
+import { neon } from '@neondatabase/serverless';
 
 export default async (req) => {
   const auth = req.headers.get('x-admin-key');
@@ -13,7 +13,7 @@ export default async (req) => {
   let body;
   try { body = await req.json(); } catch { return new Response('Invalid JSON', { status: 400 }); }
 
-  const sql = neon();
+  const sql = neon(process.env.NETLIFY_DATABASE_URL);
 
   await sql`
     UPDATE survey_responses

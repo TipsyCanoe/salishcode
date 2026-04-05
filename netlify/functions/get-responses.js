@@ -1,4 +1,4 @@
-import { neon } from '@netlify/neon';
+import { neon } from '@neondatabase/serverless';
 
 export default async (req) => {
   // Simple password check via header
@@ -7,7 +7,7 @@ export default async (req) => {
     return new Response('Unauthorized', { status: 401 });
   }
 
-  const sql = neon();
+  const sql = neon(process.env.NETLIFY_DATABASE_URL);
 
   try {
     // Summary stats

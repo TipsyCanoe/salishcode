@@ -23,7 +23,7 @@ export default async (req) => {
   }
 
   try {
-    const sql = neon();  // automatically uses NETLIFY_DATABASE_URL
+    const sql = neon(process.env.NETLIFY_DATABASE_URL);  // automatically uses NETLIFY_DATABASE_URL
 
     await sql`
       INSERT INTO survey_responses (
