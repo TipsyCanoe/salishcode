@@ -146,6 +146,26 @@
       transition: all 0.2s;
     }
     .btn-ghost:hover { border-color: rgba(255,255,255,0.4); color: #fff; background: rgba(255,255,255,0.07); }
+    .btn-ghost-dark {
+      background: none;
+      color: var(--forest);
+      border: 1px solid var(--border-md);
+      border-radius: 8px;
+      padding: 12px 24px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+    .btn-ghost-dark:hover {
+      background: var(--sage-pale);
+      border-color: var(--forest-lt);
+    }
 
     /* ── HERO CARD ─────────────────────────────────── */
     .hero-card {
@@ -404,6 +424,7 @@
     </a>
     <ul class="nav-links">
       <li><a href="#solutions">Solutions</a></li>
+      <li><a href="templates.html">Portfolio</a></li>
       <li><a href="pricing.html">Pricing</a></li>
       <li><a href="survey.html">Community Survey</a></li>
       <li><a href="#contact" class="nav-cta">Get in Touch</a></li>
@@ -517,8 +538,9 @@
         <a href="#contact" class="sol-link">Get in touch →</a>
       </div>
     </div>
-    <div style="margin-top:1.5rem;">
+    <div style="margin-top:1.5rem; display:flex; gap:12px; flex-wrap:wrap;">
       <a href="solutions.html" class="btn-primary" style="display:inline-flex;">View all solutions</a>
+      <a href="templates.html" class="btn-ghost-dark" style="display:inline-flex;">See website templates →</a>
     </div>
   </div>
 </section>
