@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Salish Code · Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --forest: #1f3d2b;
+    --forest-deep: #15291d;
+    --forest-soft: #2c5740;
+    --gold: #c9a14a;
+    --gold-soft: #e3c980;
+    --paper: #f7f4ec;
+    --paper-line: #e7e0d0;
+    --ink: #20251f;
+    --ink-soft: #586056;
+    --row-alt: #fbf9f3;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: "IBM Plex Sans", sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+  }
+  .topbar {
+    background: linear-gradient(160deg, var(--forest) 0%, var(--forest-deep) 100%);
+    color: var(--paper);
+    padding: 22px 28px;
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    border-bottom: 3px solid var(--gold);
+  }
+  .topbar h1 {
+    font-family: "Fraunces", serif;
+    font-weight: 600;
+    font-size: 1.5rem;
+    margin: 0;
+    letter-spacing: 0.2px;
+  }
+  .topbar .sub {
+    font-size: 0.85rem;
+    color: var(--gold-soft);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  /* ---- Login gate (dark, matches hub) ---- */
+  #gate {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background:
+      radial-gradient(ellipse 80% 60% at 20% 10%, rgba(44,87,64,0.35) 0%, transparent 65%),
+      #13271b;
+    z-index: 100;
+  }
+  .gate-card {
+    width: 100%;
+    max-width: 380px;
+    margin: 20px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.09);
+    border-radius: 14px;
+    padding: 36px 32px 32px;
+    backdrop-filter: blur(12px);
+    animation: cardIn 0.4s ease both;
+  }
+  @keyframes cardIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .gate-logo {
+    font-family: "Fraunces", serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--gold-soft);
+    margin-bottom: 4px;
+    opacity: 0.7;
+  }
+  .gate-title {
+    font-family: "Fraunces", serif;
+    font-weight: 600;
+    font-size: 1.45rem;
+    color: #f4f1e8;
+    margin: 0 0 6px;
+  }
+  .gate-sub { color: rgba(244,241,232,0.4); font-size: 0.85rem; margin: 0 0 26px; line-height: 1.5; }
+  .gate-label {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: rgba(244,241,232,0.4);
+    margin-bottom: 8px;
+  }
+  input[type="password"] {
+    width: 100%;
+    padding: 12px 14px;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 1rem;
+    letter-spacing: 2px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 8px;
+    color: #f4f1e8;
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  input[type="text"] {
+    width: 100%;
+    padding: 9px 12px;
+    font-family: "IBM Plex Sans", sans-serif;
+    font-size: 0.9rem;
+    background: var(--paper);
+    border: 1px solid var(--paper-line);
+    border-radius: 7px;
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  input[type="password"]:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(196,152,42,0.15);
+  }
+  input[type="text"]:focus { border-color: var(--forest-soft); }
+  button {
+    font-family: inherit;
+    cursor: pointer;
+    border: none;
+    border-radius: 7px;
+    font-weight: 600;
+    transition: transform 0.08s, background 0.15s, opacity 0.15s;
+  }
+  button:active { transform: translateY(1px); }
+  .btn-primary {
+    margin-top: 18px;
+    width: 100%;
+    padding: 13px;
+    background: linear-gradient(135deg, var(--forest-soft) 0%, var(--forest) 100%);
+    border: 1px solid rgba(196,152,42,0.3);
+    border-radius: 8px;
+    color: #f4f1e8;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+  }
+  .btn-primary:hover { opacity: 0.88; }
+  .err { color: #e07060; font-size: 0.82rem; margin-top: 12px; min-height: 1.2em; }
+
+  /* ---- Tabs ---- */
+  .tabs {
+    display: flex;
+    gap: 4px;
+    padding: 0 28px;
+    background: var(--forest-deep);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .tab {
+    background: transparent;
+    color: var(--gold-soft);
+    border: none;
+    border-radius: 0;
+    padding: 13px 18px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    opacity: 0.6;
+    border-bottom: 3px solid transparent;
+  }
+  .tab:hover { opacity: 0.85; }
+  .tab.active {
+    opacity: 1;
+    color: #fff;
+    border-bottom-color: var(--gold);
+  }
+
+  /* ---- Toolbar ---- */
+  .wrap { padding: 22px 28px 60px; display: none; }
+  .toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 16px;
+  }
+  .toolbar .meta { font-size: 0.85rem; color: var(--ink-soft); }
+  .toolbar .meta b { color: var(--forest); font-weight: 600; }
+  .search { flex: 1; min-width: 200px; max-width: 380px; }
+  .btn-ghost {
+    background: #fff;
+    color: var(--forest);
+    border: 1px solid var(--paper-line);
+    padding: 9px 15px;
+    font-size: 0.85rem;
+  }
+  .btn-ghost:hover { border-color: var(--forest-soft); }
+
+  /* ---- Table ---- */
+  .table-shell {
+    overflow: auto;
+    border: 1px solid var(--paper-line);
+    border-radius: 10px;
+    background: #fff;
+    max-height: 74vh;
+  }
+  table { border-collapse: collapse; width: 100%; font-size: 0.88rem; }
+  thead th {
+    position: sticky;
+    top: 0;
+    background: var(--forest);
+    color: var(--paper);
+    text-align: left;
+    padding: 11px 14px;
+    font-weight: 600;
+    font-size: 0.78rem;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    cursor: pointer;
+    user-select: none;
+    border-right: 1px solid rgba(255,255,255,0.08);
+  }
+  thead th:hover { background: var(--forest-soft); }
+  thead th .arrow { color: var(--gold-soft); margin-left: 5px; font-size: 0.75rem; }
+  tbody td {
+    padding: 10px 14px;
+    border-top: 1px solid var(--paper-line);
+    vertical-align: top;
+    max-width: 380px;
+    word-break: break-word;
+    line-height: 1.45;
+  }
+  tbody tr:nth-child(even) { background: var(--row-alt); }
+  tbody tr:hover { background: #f1ede2; }
+  td.date { white-space: nowrap; font-variant-numeric: tabular-nums; color: var(--forest); font-weight: 500; }
+  td.empty { color: #b7b09c; font-style: italic; }
+  .state-msg { padding: 28px 14px; color: var(--ink-soft); font-size: 0.9rem; }
+  .count-foot { font-size: 0.8rem; color: var(--ink-soft); margin-top: 12px; }
+</style>
+</head>
+<body>
+  <div class="topbar">
+    <h1>Salish&nbsp;Code</h1>
+    <span class="sub">Admin</span>
+  </div>
+
+  <!-- Login gate -->
+  <div id="gate">
+    <div class="gate-card">
+      <div class="gate-logo">Salish Code</div>
+      <h2 class="gate-title">Survey &amp; Grants</h2>
+      <p class="gate-sub">Enter your admin password to continue.</p>
+      <label class="gate-label" for="pw">Password</label>
+      <input type="password" id="pw" autocomplete="current-password" placeholder="••••••••" />
+      <button class="btn-primary" id="loginBtn">Continue</button>
+      <div class="err" id="err"></div>
+    </div>
+  </div>
+
+  <!-- Tabs (hidden until login) -->
+  <div class="tabs" id="tabs" style="display:none;">
+    <button class="tab active" data-tab="survey">Survey</button>
+    <button class="tab" data-tab="grants">Grants</button>
+  </div>
+
+  <!-- Data -->
+  <div class="wrap" id="wrap">
+    <div class="toolbar">
+      <span class="meta"><b id="count">0</b> <span id="noun">responses</span></span>
+      <input type="text" class="search" id="search" placeholder="Filter…" />
+      <button class="btn-ghost" id="refreshBtn">Refresh</button>
+      <button class="btn-ghost" id="logoutBtn">Sign out</button>
+    </div>
+    <div class="table-shell">
+      <table id="tbl">
+        <thead><tr id="head"></tr></thead>
+        <tbody id="body"></tbody>
+      </table>
+      <div class="state-msg" id="stateMsg" style="display:none;"></div>
+    </div>
+    <div class="count-foot" id="foot"></div>
+  </div>
+
+<script>
+const ENDPOINTS = {
+  survey: '/.netlify/functions/survey',
+  grants: '/.netlify/functions/grants',
+};
+const NOUNS = { survey: 'responses', grants: 'grants' };
+
+// Per-tab state. survey sorts newest-first (desc), grants soonest-first (asc).
+const STATE = {
+  survey: { rows: [], dateCol: null, sortKey: null, sortDir: -1, loaded: false, error: null },
+  grants: { rows: [], dateCol: null, sortKey: null, sortDir: 1, loaded: false, error: null },
+};
+let currentTab = 'survey';
+
+const $ = (id) => document.getElementById(id);
+
+async function load(tab) {
+  const password = sessionStorage.getItem('sc_pw');
+  const res = await fetch(ENDPOINTS[tab], {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ password }),
+  });
+  if (res.status === 401) throw new Error('AUTH');
+  const data = await res.json().catch(() => ({}));
+  const s = STATE[tab];
+  if (!res.ok) {
+    s.error = data.error || ('Server error ' + res.status);
+    s.rows = [];
+    s.loaded = true;
+    return;
+  }
+  s.rows = data.rows || [];
+  s.dateCol = data.dateColumn || null;
+  s.sortKey = s.dateCol || (s.rows[0] ? Object.keys(s.rows[0])[0] : null);
+  s.error = null;
+  s.loaded = true;
+}
+
+function columns(s) {
+  if (!s.rows.length) return [];
+  const keys = Object.keys(s.rows[0]);
+  if (s.dateCol && keys.includes(s.dateCol)) {
+    return [s.dateCol, ...keys.filter((k) => k !== s.dateCol)];
+  }
+  return keys;
+}
+
+function fmtDate(v) {
+  if (!v) return '';
+  const str = String(v);
+  // Date-only values (YYYY-MM-DD) render without a meaningless 12:00 AM.
+  if (/^\d{4}-\d{2}-\d{2}$/.test(str)) {
+    const d = new Date(str + 'T00:00:00');
+    return isNaN(d) ? str : d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: '2-digit' });
+  }
+  const d = new Date(v);
+  if (isNaN(d)) return str;
+  return d.toLocaleString(undefined, {
+    year: 'numeric', month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit',
+  });
+}
+
+function fmtCell(v) {
+  if (v === null || v === undefined || v === '') return null;
+  if (typeof v === 'object') return JSON.stringify(v, null, 1);
+  return String(v);
+}
+
+function render() {
+  const s = STATE[currentTab];
+  const head = $('head');
+  const body = $('body');
+  const stateMsg = $('stateMsg');
+  const tbl = $('tbl');
+  head.innerHTML = '';
+  body.innerHTML = '';
+
+  $('noun').textContent = NOUNS[currentTab];
+
+  if (s.error) {
+    tbl.style.display = 'none';
+    stateMsg.style.display = 'block';
+    stateMsg.textContent = s.error;
+    $('count').textContent = '0';
+    $('foot').textContent = '';
+    return;
+  }
+  if (!s.rows.length) {
+    tbl.style.display = 'none';
+    stateMsg.style.display = 'block';
+    stateMsg.textContent = 'No ' + NOUNS[currentTab] + ' yet.';
+    $('count').textContent = '0';
+    $('foot').textContent = '';
+    return;
+  }
+
+  tbl.style.display = '';
+  stateMsg.style.display = 'none';
+
+  const cols = columns(s);
+  cols.forEach((c) => {
+    const th = document.createElement('th');
+    th.textContent = c;
+    if (c === s.sortKey) {
+      const a = document.createElement('span');
+      a.className = 'arrow';
+      a.textContent = s.sortDir === -1 ? '\u25BC' : '\u25B2';
+      th.appendChild(a);
+    }
+    th.onclick = () => {
+      if (s.sortKey === c) s.sortDir *= -1;
+      else { s.sortKey = c; s.sortDir = 1; }
+      render();
+    };
+    head.appendChild(th);
+  });
+
+  const filter = $('search').value.trim().toLowerCase();
+  let rows = s.rows.slice();
+  if (filter) {
+    rows = rows.filter((r) =>
+      Object.values(r).some((v) => v != null && String(v).toLowerCase().includes(filter))
+    );
+  }
+
+  rows.sort((a, b) => {
+    let x = a[s.sortKey], y = b[s.sortKey];
+    if (s.sortKey === s.dateCol) { x = new Date(x); y = new Date(y); }
+    if (x == null) return 1;
+    if (y == null) return -1;
+    if (x < y) return -1 * s.sortDir;
+    if (x > y) return 1 * s.sortDir;
+    return 0;
+  });
+
+  rows.forEach((r) => {
+    const tr = document.createElement('tr');
+    cols.forEach((c) => {
+      const td = document.createElement('td');
+      const val = fmtCell(r[c]);
+      if (c === s.dateCol) {
+        td.className = 'date';
+        td.textContent = fmtDate(r[c]);
+      } else if (val === null) {
+        td.className = 'empty';
+        td.textContent = '\u2014';
+      } else {
+        td.textContent = val;
+      }
+      tr.appendChild(td);
+    });
+    body.appendChild(tr);
+  });
+
+  $('count').textContent = rows.length;
+  $('foot').textContent = filter
+    ? 'Showing ' + rows.length + ' of ' + s.rows.length + ' ' + NOUNS[currentTab] + '.'
+    : s.rows.length + ' total ' + NOUNS[currentTab] + '.';
+}
+
+async function switchTo(tab) {
+  currentTab = tab;
+  document.querySelectorAll('.tab').forEach((t) =>
+    t.classList.toggle('active', t.dataset.tab === tab));
+  $('search').value = '';
+  if (!STATE[tab].loaded) {
+    try { await load(tab); }
+    catch (e) { if (e.message === 'AUTH') return signOut(); }
+  }
+  render();
+}
+
+function showData() {
+  $('gate').style.display = 'none';
+  $('tabs').style.display = 'flex';
+  $('wrap').style.display = 'block';
+  // Hub deep-link: switch to a specific tab if requested.
+  const initTab = sessionStorage.getItem('sc_initial_tab');
+  if (initTab && STATE[initTab] !== undefined) {
+    sessionStorage.removeItem('sc_initial_tab');
+    switchTo(initTab);
+  }
+}
+
+function signOut() {
+  sessionStorage.removeItem('sc_pw');
+  location.reload();
+}
+
+async function attempt(password) {
+  $('err').textContent = '';
+  sessionStorage.setItem('sc_pw', password);
+  try {
+    await load('survey');
+    if (STATE.survey.error === 'AUTH') throw new Error('AUTH');
+    showData();
+    render();
+  } catch (e) {
+    sessionStorage.removeItem('sc_pw');
+    $('err').textContent = e.message === 'AUTH' ? 'Wrong password.' : e.message;
+  }
+}
+
+$('loginBtn').onclick = () => attempt($('pw').value);
+$('pw').addEventListener('keydown', (e) => { if (e.key === 'Enter') attempt($('pw').value); });
+$('search').addEventListener('input', render);
+$('refreshBtn').onclick = async () => {
+  STATE[currentTab].loaded = false;
+  try { await load(currentTab); } catch (e) { if (e.message === 'AUTH') return signOut(); }
+  render();
+};
+$('logoutBtn').onclick = signOut;
+document.querySelectorAll('.tab').forEach((t) =>
+  t.addEventListener('click', () => switchTo(t.dataset.tab)));
+
+// Hub deep-link: hub passes #pw=BASE64 in the URL fragment.
+// Read it, store it, then strip it from the address bar.
+(function () {
+  const hash = window.location.hash;
+  if (hash.startsWith('#pw=')) {
+    try {
+      const pw = atob(hash.slice(4));
+      sessionStorage.setItem('sc_pw', pw);
+    } catch (_) { /* ignore malformed fragment */ }
+    history.replaceState(null, '', window.location.pathname + window.location.search);
+  }
+  // Hub passes ?tab=grants to open the Grants tab directly.
+  const params = new URLSearchParams(window.location.search);
+  const tab = params.get('tab');
+  if (tab && STATE[tab] !== undefined) {
+    sessionStorage.setItem('sc_initial_tab', tab);
+  }
+})();
+
+// Stay signed in within the browser session.
+const saved = sessionStorage.getItem('sc_pw');
+if (saved) attempt(saved);
+</script>
+</body>
+</html>

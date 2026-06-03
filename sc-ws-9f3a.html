@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>SC Workstation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Newsreader:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --forest:   #1C3A2E;
+  --forest-2: #254d3d;
+  --forest-3: #1a3228;
+  --gold:     #C4982A;
+  --gold-dim: #a07e22;
+  --ink:      #e8e2d4;
+  --ink-dim:  #a89e88;
+  --ink-faint:#5a5244;
+  --surface:  #213b30;
+  --surface-2:#1e3529;
+  --red:      #c0392b;
+  --green:    #27ae60;
+  --border:   rgba(196,152,42,0.18);
+  --radius:   6px;
+  --mono: 'IBM Plex Mono', monospace;
+  --serif: 'Newsreader', Georgia, serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--forest);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 13px;
+  min-height: 100vh;
+}
+
+/* ── LOGIN (dark, matches hub) ── */
+#login-screen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 10%, rgba(44,87,64,0.35) 0%, transparent 65%),
+    #13271b;
+}
+.login-card {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.09);
+  border-radius: 14px;
+  padding: 36px 32px 32px;
+  width: 380px;
+  max-width: calc(100vw - 40px);
+  backdrop-filter: blur(12px);
+  animation: cardIn 0.4s ease both;
+}
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.login-logo {
+  font-family: var(--serif);
+  font-size: 1rem;
+  color: var(--gold-soft);
+  opacity: 0.7;
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+.login-title {
+  font-family: var(--serif);
+  font-size: 1.45rem;
+  font-weight: 600;
+  color: #f4f1e8;
+  margin-bottom: 6px;
+}
+.login-sub { color: rgba(244,241,232,0.4); font-size: 0.85rem; margin-bottom: 26px; line-height: 1.5; }
+.login-label {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: rgba(244,241,232,0.4);
+  margin-bottom: 8px;
+}
+.login-input {
+  width: 100%;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 8px;
+  padding: 12px 14px;
+  color: #f4f1e8;
+  font-family: var(--mono);
+  font-size: 1rem;
+  outline: none;
+  margin-bottom: 0;
+  letter-spacing: 2px;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.login-input:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(196,152,42,0.15);
+}
+.login-btn {
+  width: 100%;
+  margin-top: 18px;
+  background: linear-gradient(135deg, #2c5740 0%, #1C3A2E 100%);
+  border: 1px solid rgba(196,152,42,0.3);
+  color: #f4f1e8;
+  border-radius: 8px;
+  padding: 13px;
+  font-family: var(--mono);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  transition: opacity 0.15s, transform 0.08s;
+}
+.login-btn:hover { opacity: 0.88; }
+.login-btn:active { transform: translateY(1px); }
+.login-err { color: #e07060; font-size: 0.82rem; margin-top: 12px; min-height: 1.2em; }
+
+/* ── APP SHELL ── */
+#app { display: none; }
+
+.topbar {
+  background: var(--forest-3);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky; top: 0; z-index: 100;
+}
+.topbar-logo {
+  font-family: var(--serif);
+  font-size: 16px;
+  color: var(--gold);
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+.topbar-logo span { color: var(--ink-dim); font-size: 11px; font-family: var(--mono); margin-left: 8px; font-weight: 400; }
+.topbar-right { display: flex; align-items: center; gap: 12px; }
+.btn-signout {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--ink-dim);
+  padding: 5px 10px;
+  cursor: pointer;
+  font-family: var(--mono);
+  font-size: 11px;
+}
+.btn-signout:hover { border-color: var(--gold); color: var(--gold); }
+
+/* ── LAYOUT ── */
+.layout {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  min-height: calc(100vh - 52px);
+}
+
+/* ── SIDEBAR ── */
+.sidebar {
+  background: var(--surface-2);
+  border-right: 1px solid var(--border);
+  padding: 16px 0;
+  overflow-y: auto;
+}
+.sidebar-section { margin-bottom: 4px; }
+.sidebar-label {
+  padding: 6px 16px 4px;
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  color: var(--ink-faint);
+  text-transform: uppercase;
+}
+.cat-group { margin-bottom: 8px; }
+.cat-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 16px;
+  cursor: pointer;
+  color: var(--ink-dim);
+  font-size: 11px;
+  user-select: none;
+}
+.cat-header:hover { color: var(--ink); }
+.cat-header .chevron { transition: transform 0.2s; font-size: 9px; }
+.cat-header.open .chevron { transform: rotate(90deg); }
+.cat-name { font-weight: 600; font-size: 10px; letter-spacing: 0.8px; text-transform: uppercase; }
+.cat-count {
+  background: var(--forest);
+  border-radius: 10px;
+  padding: 1px 6px;
+  font-size: 9px;
+  color: var(--ink-faint);
+}
+.project-list { overflow: hidden; }
+.project-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 16px 6px 24px;
+  cursor: pointer;
+  border-left: 2px solid transparent;
+  transition: background 0.1s;
+}
+.project-item:hover { background: rgba(196,152,42,0.06); }
+.project-item.active {
+  background: rgba(196,152,42,0.1);
+  border-left-color: var(--gold);
+}
+.project-item.active .p-name { color: var(--gold); }
+.p-name { flex: 1; color: var(--ink-dim); font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.p-badge {
+  font-size: 9px;
+  padding: 1px 5px;
+  border-radius: 3px;
+  margin-left: 6px;
+  flex-shrink: 0;
+}
+.p-badge.black  { background: #2a1a1a; color: #e57368; border: 1px solid #e5736844; }
+.p-badge.red    { background: #2a1a1a; color: #e59568; border: 1px solid #e5956844; }
+.p-badge.high   { background: #2a2218; color: var(--gold); border: 1px solid #c4982a44; }
+.p-badge.medium { background: var(--forest); color: var(--ink-dim); border: 1px solid var(--border); }
+.p-badge.low    { background: var(--forest); color: var(--ink-faint); border: 1px solid #ffffff11; }
+
+.sidebar-add-btn {
+  display: block;
+  width: calc(100% - 32px);
+  margin: 8px 16px 0;
+  background: none;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+  color: var(--ink-faint);
+  font-family: var(--mono);
+  font-size: 11px;
+  padding: 7px;
+  cursor: pointer;
+  text-align: center;
+}
+.sidebar-add-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+/* ── MAIN PANEL ── */
+.main-panel { padding: 24px; overflow-y: auto; }
+
+/* No selection state */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 60vh;
+  color: var(--ink-faint);
+  text-align: center;
+  gap: 8px;
+}
+.empty-state .big { font-family: var(--serif); font-size: 32px; color: var(--forest-2); }
+.empty-state p { font-size: 11px; }
+
+/* Project header */
+.project-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  gap: 16px;
+}
+.project-header-left h2 {
+  font-family: var(--serif);
+  font-size: 22px;
+  color: var(--gold);
+  font-weight: 600;
+}
+.project-header-left .p-meta {
+  color: var(--ink-faint);
+  font-size: 10px;
+  margin-top: 4px;
+  display: flex; gap: 12px;
+}
+.project-header-right { display: flex; gap: 8px; flex-shrink: 0; }
+
+/* Task list */
+.tasks-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.filter-tabs { display: flex; gap: 4px; }
+.filter-tab {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--ink-faint);
+  font-family: var(--mono);
+  font-size: 10px;
+  padding: 4px 10px;
+  cursor: pointer;
+}
+.filter-tab.active, .filter-tab:hover { border-color: var(--gold); color: var(--gold); }
+.tasks-toolbar-right { margin-left: auto; }
+
+.task-row {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  margin-bottom: 6px;
+  display: grid;
+  grid-template-columns: 20px 1fr auto;
+  gap: 10px;
+  align-items: start;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+.task-row:hover { border-color: rgba(196,152,42,0.4); }
+.task-row.done { opacity: 0.45; }
+.task-check {
+  width: 16px; height: 16px;
+  border: 1.5px solid var(--border);
+  border-radius: 3px;
+  margin-top: 1px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.15s, border-color 0.15s;
+}
+.task-check:hover { border-color: var(--gold); }
+.task-check.checked { background: var(--gold); border-color: var(--gold); }
+.task-check.checked::after { content: '✓'; font-size: 9px; color: var(--forest); font-weight: 700; }
+.task-body { min-width: 0; }
+.task-title { font-size: 12px; color: var(--ink); line-height: 1.4; }
+.task-title.done-text { text-decoration: line-through; color: var(--ink-faint); }
+.task-meta { display: flex; gap: 8px; margin-top: 4px; flex-wrap: wrap; }
+.tag {
+  font-size: 9px; padding: 1px 6px; border-radius: 3px;
+}
+.tag-kind    { background: #1a2f26; color: var(--ink-dim); border: 1px solid var(--border); }
+.tag-due     { color: #e59568; }
+.tag-due.overdue { color: #e57368; }
+.tag-notes   { color: var(--ink-faint); font-style: italic; max-width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.task-priority { flex-shrink: 0; margin-top: 2px; }
+
+/* ── BUTTONS ── */
+.btn {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--ink-dim);
+  font-family: var(--mono);
+  font-size: 11px;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.btn:hover { border-color: var(--gold); color: var(--gold); }
+.btn-primary {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: var(--forest);
+  font-weight: 600;
+}
+.btn-primary:hover { background: #d4a830; border-color: #d4a830; color: var(--forest); }
+.btn-danger { border-color: #c0392b44; color: #e57368; }
+.btn-danger:hover { border-color: var(--red); background: #2a1a1a; }
+.btn-sm { padding: 4px 8px; font-size: 10px; }
+
+/* ── MODAL ── */
+.modal-overlay {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 200;
+  align-items: center;
+  justify-content: center;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 28px;
+  width: 480px;
+  max-width: 94vw;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+.modal h3 {
+  font-family: var(--serif);
+  font-size: 18px;
+  color: var(--gold);
+  margin-bottom: 20px;
+}
+.form-row { margin-bottom: 14px; }
+.form-label { display: block; font-size: 10px; color: var(--ink-faint); letter-spacing: 0.8px; text-transform: uppercase; margin-bottom: 5px; }
+.form-input, .form-select, .form-textarea {
+  width: 100%;
+  background: var(--forest);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 12px;
+  padding: 8px 10px;
+  outline: none;
+}
+.form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--gold); }
+.form-select option { background: var(--forest); }
+.form-textarea { resize: vertical; min-height: 80px; }
+.form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.modal-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 20px; }
+
+/* ── PRIORITY PILL ── */
+.pill { font-size: 9px; padding: 2px 6px; border-radius: 3px; font-weight: 600; }
+.pill-black  { background: #2a1a1a; color: #e57368; border: 1px solid #e5736844; }
+.pill-red    { background: #2a1818; color: #e59568; border: 1px solid #e5956844; }
+.pill-high   { background: #2a2218; color: var(--gold); border: 1px solid #c4982a44; }
+.pill-medium { background: var(--forest); color: var(--ink-dim); border: 1px solid var(--border); }
+.pill-low    { background: var(--forest); color: var(--ink-faint); border: 1px solid #ffffff11; }
+
+/* ── TOAST ── */
+#toast {
+  position: fixed; bottom: 24px; right: 24px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 10px 16px;
+  font-size: 11px;
+  color: var(--ink);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: all 0.2s;
+  z-index: 999;
+  pointer-events: none;
+}
+#toast.show { opacity: 1; transform: translateY(0); }
+#toast.ok { border-color: var(--green); color: #6ee09a; }
+#toast.err { border-color: var(--red); color: #e57368; }
+
+/* ── LOADING ── */
+.spin {
+  display: inline-block;
+  width: 12px; height: 12px;
+  border: 2px solid var(--border);
+  border-top-color: var(--gold);
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+  vertical-align: middle;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.section-loading { padding: 32px; text-align: center; color: var(--ink-faint); font-size: 11px; }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--forest); }
+::-webkit-scrollbar-thumb { background: var(--forest-2); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-faint); }
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-card">
+    <div class="login-logo">Salish Code</div>
+    <div class="login-title">AI Workstation</div>
+    <p class="login-sub">Enter your admin password to continue.</p>
+    <label class="login-label" for="login-pw">Password</label>
+    <input type="password" id="login-pw" class="login-input" placeholder="••••••••" autocomplete="current-password"/>
+    <button class="login-btn" id="login-btn">Continue</button>
+    <div class="login-err" id="login-err"></div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <div class="topbar">
+    <div class="topbar-logo">Salish Code <span>/ Workstation Admin</span></div>
+    <div class="topbar-right">
+      <button class="btn-signout" id="signout-btn">Sign out</button>
+    </div>
+  </div>
+
+  <div class="layout">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="section-loading"><span class="spin"></span></div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main-panel" id="main-panel">
+      <div class="empty-state">
+        <div class="big">◈</div>
+        <p>Select a project to view tasks</p>
+        <p style="margin-top:6px">or add a new project from the sidebar</p>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- PROJECT MODAL -->
+<div class="modal-overlay" id="project-modal">
+  <div class="modal">
+    <h3 id="project-modal-title">New Project</h3>
+    <div class="form-row">
+      <label class="form-label">Project Name</label>
+      <input class="form-input" id="pm-name" placeholder="e.g. PaddleBoard"/>
+    </div>
+    <div class="form-row-2">
+      <div class="form-row" style="margin:0">
+        <label class="form-label">Category</label>
+        <select class="form-select" id="pm-category">
+          <option value="">— choose —</option>
+          <option value="writing">Writing</option>
+          <option value="game">Game</option>
+          <option value="salish_code">Salish Code</option>
+          <option value="tech_personal">Tech / Personal</option>
+          <option value="nwic">NWIC</option>
+        </select>
+      </div>
+      <div class="form-row" style="margin:0">
+        <label class="form-label">Priority</label>
+        <select class="form-select" id="pm-priority">
+          <option value="medium">Medium</option>
+          <option value="high">High</option>
+          <option value="black">Black (critical)</option>
+          <option value="red">Red (urgent)</option>
+          <option value="low">Low</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <label class="form-label">Description</label>
+      <textarea class="form-textarea" id="pm-desc" placeholder="Brief description or goal..."></textarea>
+    </div>
+    <div class="form-row">
+      <label class="form-label">Status</label>
+      <select class="form-select" id="pm-status">
+        <option value="active">Active</option>
+        <option value="on_hold">On Hold</option>
+        <option value="completed">Completed</option>
+        <option value="archived">Archived</option>
+      </select>
+    </div>
+    <div class="modal-actions">
+      <button class="btn" id="project-modal-cancel">Cancel</button>
+      <button class="btn btn-danger btn-sm" id="project-modal-delete" style="display:none">Delete Project</button>
+      <button class="btn btn-primary" id="project-modal-save">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- TASK MODAL -->
+<div class="modal-overlay" id="task-modal">
+  <div class="modal">
+    <h3 id="task-modal-title">New Task</h3>
+    <div class="form-row">
+      <label class="form-label">Title</label>
+      <input class="form-input" id="tm-title" placeholder="What needs to be done?"/>
+    </div>
+    <div class="form-row">
+      <label class="form-label">Project</label>
+      <select class="form-select" id="tm-project"></select>
+    </div>
+    <div class="form-row-2">
+      <div class="form-row" style="margin:0">
+        <label class="form-label">Priority</label>
+        <select class="form-select" id="tm-priority">
+          <option value="medium">Medium</option>
+          <option value="high">High</option>
+          <option value="black">Black</option>
+          <option value="red">Red</option>
+          <option value="low">Low</option>
+        </select>
+      </div>
+      <div class="form-row" style="margin:0">
+        <label class="form-label">Kind</label>
+        <select class="form-select" id="tm-kind">
+          <option value="task">Task</option>
+          <option value="bug">Bug</option>
+          <option value="feature">Feature</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <label class="form-label">Due Date</label>
+      <input class="form-input" type="date" id="tm-due"/>
+    </div>
+    <div class="form-row">
+      <label class="form-label">Notes</label>
+      <textarea class="form-textarea" id="tm-notes" placeholder="Any extra context..."></textarea>
+    </div>
+    <div class="form-row">
+      <label class="form-label">Status</label>
+      <select class="form-select" id="tm-status">
+        <option value="todo">To Do</option>
+        <option value="in_progress">In Progress</option>
+        <option value="done">Done</option>
+        <option value="blocked">Blocked</option>
+      </select>
+    </div>
+    <div class="modal-actions">
+      <button class="btn" id="task-modal-cancel">Cancel</button>
+      <button class="btn btn-danger btn-sm" id="task-modal-delete" style="display:none">Delete Task</button>
+      <button class="btn btn-primary" id="task-modal-save">Save</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// ── CONFIG ──────────────────────────────────────────────────────
+const FN_URL = '/.netlify/functions/workstation';
+
+// ── STATE ───────────────────────────────────────────────────────
+let KEY = '';
+let projects = [];
+let tasks = [];
+let activeProjectId = null;
+let taskFilter = 'open';
+
+// ── UTILITY ─────────────────────────────────────────────────────
+const $ = id => document.getElementById(id);
+
+function toast(msg, type='ok') {
+  const el = $('toast');
+  el.textContent = msg;
+  el.className = `show ${type}`;
+  setTimeout(() => { el.className = ''; }, 2800);
+}
+
+async function api(action, extra={}) {
+  const res = await fetch(FN_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ key: KEY, action, ...extra })
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || 'Unknown error');
+  return data;
+}
+
+function priorityPill(p) {
+  const map = {
+    black: ['pill-black','CRITICAL'],
+    red:   ['pill-red','URGENT'],
+    high:  ['pill-high','HIGH'],
+    medium:['pill-medium','MED'],
+    low:   ['pill-low','LOW'],
+  };
+  const [cls, label] = map[p] || map.medium;
+  return `<span class="pill ${cls}">${label}</span>`;
+}
+
+function priorityBadgeClass(p) {
+  return { black:'black', red:'red', high:'high', medium:'medium', low:'low' }[p] || 'medium';
+}
+
+const CATEGORIES = {
+  writing:      'Writing',
+  game:         'Games',
+  salish_code:  'Salish Code',
+  tech_personal:'Tech / Personal',
+  nwic:         'NWIC',
+  '':           'Uncategorized',
+};
+
+// ── LOGIN ────────────────────────────────────────────────────────
+async function attemptLogin(pw) {
+  $('login-err').textContent = '';
+  try {
+    KEY = pw;
+    await api('list_projects');
+    sessionStorage.setItem('sc_ws_key', pw);
+    $('login-screen').style.display = 'none';
+    $('app').style.display = 'block';
+    await loadAll();
+  } catch(e) {
+    KEY = '';
+    $('login-err').textContent = e.message === 'Unauthorized' ? 'Wrong key.' : e.message;
+  }
+}
+
+$('login-btn').onclick = () => attemptLogin($('login-pw').value);
+$('login-pw').addEventListener('keydown', e => { if (e.key === 'Enter') attemptLogin($('login-pw').value); });
+
+$('signout-btn').onclick = () => {
+  sessionStorage.removeItem('sc_ws_key');
+  location.reload();
+};
+
+// Hub deep-link: hub passes #pw=BASE64 in the URL fragment.
+(function () {
+  const hash = window.location.hash;
+  if (hash.startsWith('#pw=')) {
+    try {
+      const pw = atob(hash.slice(4));
+      sessionStorage.setItem('sc_ws_key', pw);
+    } catch (_) { /* ignore malformed fragment */ }
+    history.replaceState(null, '', window.location.pathname + window.location.search);
+  }
+})();
+
+// Auto-login
+const saved = sessionStorage.getItem('sc_ws_key');
+if (saved) attemptLogin(saved);
+
+// ── LOAD ALL ─────────────────────────────────────────────────────
+async function loadAll() {
+  const [pd, td] = await Promise.all([
+    api('list_projects'),
+    api('list_tasks')
+  ]);
+  projects = pd.projects;
+  tasks = td.tasks;
+  renderSidebar();
+  if (activeProjectId) renderMain(activeProjectId);
+}
+
+// ── SIDEBAR ──────────────────────────────────────────────────────
+function renderSidebar() {
+  const sidebar = $('sidebar');
+  const grouped = {};
+  for (const p of projects) {
+    const cat = p.category || '';
+    if (!grouped[cat]) grouped[cat] = [];
+    grouped[cat].push(p);
+  }
+
+  const catOrder = ['salish_code','writing','game','tech_personal','nwic',''];
+  let html = '<div class="sidebar-section"><div class="sidebar-label">Projects</div>';
+
+  for (const cat of catOrder) {
+    if (!grouped[cat]) continue;
+    const label = CATEGORIES[cat] || cat;
+    const catId = `cat-${cat || 'uncategorized'}`;
+    html += `<div class="cat-group">
+      <div class="cat-header open" data-cat="${catId}" onclick="toggleCat('${catId}',this)">
+        <span class="cat-name">${label}</span>
+        <span style="display:flex;align-items:center;gap:6px">
+          <span class="cat-count">${grouped[cat].length}</span>
+          <span class="chevron">▶</span>
+        </span>
+      </div>
+      <div class="project-list" id="${catId}">`;
+
+    for (const p of grouped[cat]) {
+      const active = p.id === activeProjectId ? 'active' : '';
+      const badgeCls = priorityBadgeClass(p.priority);
+      html += `<div class="project-item ${active}" onclick="selectProject(${p.id})">
+        <span class="p-name">${p.name}</span>
+        <span class="p-badge ${badgeCls}">${p.open_tasks > 0 ? p.open_tasks : '·'}</span>
+      </div>`;
+    }
+    html += `</div></div>`;
+  }
+
+  html += `</div>
+    <button class="sidebar-add-btn" onclick="openNewProject()">+ New Project</button>`;
+  sidebar.innerHTML = html;
+}
+
+function toggleCat(id, header) {
+  const list = $(id);
+  if (!list) return;
+  const isOpen = list.style.display !== 'none';
+  list.style.display = isOpen ? 'none' : 'block';
+  header.classList.toggle('open', !isOpen);
+}
+
+// ── SELECT PROJECT ────────────────────────────────────────────────
+function selectProject(id) {
+  activeProjectId = id;
+  renderSidebar();
+  renderMain(id);
+}
+
+function renderMain(projectId) {
+  const project = projects.find(p => p.id === projectId);
+  if (!project) return;
+
+  const projectTasks = tasks.filter(t => t.project_id === projectId);
+  const shown = taskFilter === 'all'
+    ? projectTasks
+    : taskFilter === 'open'
+      ? projectTasks.filter(t => t.status !== 'done')
+      : projectTasks.filter(t => t.status === taskFilter);
+
+  const openCount = projectTasks.filter(t => t.status !== 'done').length;
+
+  let html = `<div class="project-header">
+    <div class="project-header-left">
+      <h2>${project.name}</h2>
+      <div class="p-meta">
+        <span>${CATEGORIES[project.category || ''] || project.category || 'Uncategorized'}</span>
+        <span>${openCount} open task${openCount !== 1 ? 's' : ''}</span>
+        ${project.description ? `<span style="max-width:300px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${project.description}</span>` : ''}
+      </div>
+    </div>
+    <div class="project-header-right">
+      <button class="btn btn-sm" onclick="openEditProject(${project.id})">Edit Project</button>
+      <button class="btn btn-primary btn-sm" onclick="openNewTask(${project.id})">+ Task</button>
+    </div>
+  </div>
+
+  <div class="tasks-toolbar">
+    <div class="filter-tabs">
+      ${['open','all','todo','in_progress','blocked','done'].map(f =>
+        `<button class="filter-tab ${taskFilter===f?'active':''}" onclick="setFilter('${f}')">${f.replace('_',' ')}</button>`
+      ).join('')}
+    </div>
+  </div>`;
+
+  if (shown.length === 0) {
+    html += `<div class="section-loading" style="color:var(--ink-faint)">No tasks here</div>`;
+  } else {
+    for (const t of shown) {
+      const done = t.status === 'done';
+      const today = new Date().toISOString().slice(0,10);
+      const overdue = t.due_date && t.due_date < today && !done;
+      html += `<div class="task-row ${done?'done':''}" onclick="openEditTask(${t.id})">
+        <div class="task-check ${done?'checked':''}" onclick="toggleDone(event,${t.id},${done})"></div>
+        <div class="task-body">
+          <div class="task-title ${done?'done-text':''}">${t.title}</div>
+          <div class="task-meta">
+            <span class="tag tag-kind">${t.kind || 'task'}</span>
+            ${t.due_date ? `<span class="tag tag-due ${overdue?'overdue':''}">${overdue?'⚠ ':''}${t.due_date}</span>` : ''}
+            ${t.notes ? `<span class="tag tag-notes">${t.notes}</span>` : ''}
+          </div>
+        </div>
+        <div class="task-priority">${priorityPill(t.priority)}</div>
+      </div>`;
+    }
+  }
+
+  $('main-panel').innerHTML = html;
+}
+
+function setFilter(f) {
+  taskFilter = f;
+  if (activeProjectId) renderMain(activeProjectId);
+}
+
+async function toggleDone(e, taskId, wasDone) {
+  e.stopPropagation();
+  const newStatus = wasDone ? 'todo' : 'done';
+  try {
+    const { task } = await api('update_task', { id: taskId, status: newStatus });
+    const idx = tasks.findIndex(t => t.id === taskId);
+    if (idx !== -1) tasks[idx] = { ...tasks[idx], ...task };
+    const pIdx = projects.findIndex(p => p.id === activeProjectId);
+    if (pIdx !== -1) {
+      projects[pIdx].open_tasks = tasks.filter(t => t.project_id === activeProjectId && t.status !== 'done').length;
+    }
+    renderSidebar();
+    renderMain(activeProjectId);
+  } catch(err) { toast(err.message, 'err'); }
+}
+
+// ── PROJECT MODAL ─────────────────────────────────────────────────
+let editingProjectId = null;
+
+function openNewProject() {
+  editingProjectId = null;
+  $('project-modal-title').textContent = 'New Project';
+  $('pm-name').value = '';
+  $('pm-category').value = '';
+  $('pm-priority').value = 'medium';
+  $('pm-desc').value = '';
+  $('pm-status').value = 'active';
+  $('project-modal-delete').style.display = 'none';
+  $('project-modal').classList.add('open');
+  setTimeout(() => $('pm-name').focus(), 50);
+}
+
+function openEditProject(id) {
+  const p = projects.find(x => x.id === id);
+  if (!p) return;
+  editingProjectId = id;
+  $('project-modal-title').textContent = 'Edit Project';
+  $('pm-name').value = p.name || '';
+  $('pm-category').value = p.category || '';
+  $('pm-priority').value = p.priority || 'medium';
+  $('pm-desc').value = p.description || '';
+  $('pm-status').value = p.status || 'active';
+  $('project-modal-delete').style.display = 'inline-block';
+  $('project-modal').classList.add('open');
+}
+
+$('project-modal-cancel').onclick = () => $('project-modal').classList.remove('open');
+
+$('project-modal-save').onclick = async () => {
+  const name = $('pm-name').value.trim();
+  if (!name) { toast('Name is required', 'err'); return; }
+  const payload = {
+    name,
+    category: $('pm-category').value || null,
+    priority: $('pm-priority').value,
+    description: $('pm-desc').value.trim() || null,
+    status: $('pm-status').value,
+  };
+  try {
+    if (editingProjectId) {
+      const { project } = await api('update_project', { id: editingProjectId, ...payload });
+      const idx = projects.findIndex(p => p.id === editingProjectId);
+      if (idx !== -1) projects[idx] = { ...projects[idx], ...project };
+      toast('Project updated');
+    } else {
+      const { project } = await api('create_project', payload);
+      projects.push({ ...project, open_tasks: 0, total_tasks: 0 });
+      toast('Project created');
+    }
+    $('project-modal').classList.remove('open');
+    renderSidebar();
+    if (activeProjectId) renderMain(activeProjectId);
+  } catch(err) { toast(err.message, 'err'); }
+};
+
+$('project-modal-delete').onclick = async () => {
+  if (!editingProjectId) return;
+  if (!confirm('Delete this project and all its tasks?')) return;
+  try {
+    await api('delete_project', { id: editingProjectId });
+    projects = projects.filter(p => p.id !== editingProjectId);
+    tasks = tasks.filter(t => t.project_id !== editingProjectId);
+    if (activeProjectId === editingProjectId) {
+      activeProjectId = null;
+      $('main-panel').innerHTML = `<div class="empty-state"><div class="big">◈</div><p>Select a project</p></div>`;
+    }
+    $('project-modal').classList.remove('open');
+    renderSidebar();
+    toast('Project deleted');
+  } catch(err) { toast(err.message, 'err'); }
+};
+
+// ── TASK MODAL ────────────────────────────────────────────────────
+let editingTaskId = null;
+
+function populateProjectSelect(selectedId) {
+  const sel = $('tm-project');
+  sel.innerHTML = projects.map(p =>
+    `<option value="${p.id}" ${p.id === selectedId ? 'selected' : ''}>${p.name}</option>`
+  ).join('');
+}
+
+function openNewTask(projectId) {
+  editingTaskId = null;
+  $('task-modal-title').textContent = 'New Task';
+  $('tm-title').value = '';
+  $('tm-priority').value = 'medium';
+  $('tm-kind').value = 'task';
+  $('tm-due').value = '';
+  $('tm-notes').value = '';
+  $('tm-status').value = 'todo';
+  populateProjectSelect(projectId || activeProjectId);
+  $('task-modal-delete').style.display = 'none';
+  $('task-modal').classList.add('open');
+  setTimeout(() => $('tm-title').focus(), 50);
+}
+
+function openEditTask(id) {
+  const t = tasks.find(x => x.id === id);
+  if (!t) return;
+  editingTaskId = id;
+  $('task-modal-title').textContent = 'Edit Task';
+  $('tm-title').value = t.title || '';
+  $('tm-priority').value = t.priority || 'medium';
+  $('tm-kind').value = t.kind || 'task';
+  $('tm-due').value = t.due_date ? t.due_date.slice(0,10) : '';
+  $('tm-notes').value = t.notes || '';
+  $('tm-status').value = t.status || 'todo';
+  populateProjectSelect(t.project_id);
+  $('task-modal-delete').style.display = 'inline-block';
+  $('task-modal').classList.add('open');
+}
+
+$('task-modal-cancel').onclick = () => $('task-modal').classList.remove('open');
+
+$('task-modal-save').onclick = async () => {
+  const title = $('tm-title').value.trim();
+  if (!title) { toast('Title is required', 'err'); return; }
+  const payload = {
+    title,
+    project_id: parseInt($('tm-project').value),
+    priority: $('tm-priority').value,
+    kind: $('tm-kind').value,
+    due_date: $('tm-due').value || null,
+    notes: $('tm-notes').value.trim() || null,
+    status: $('tm-status').value,
+  };
+  try {
+    if (editingTaskId) {
+      const { task } = await api('update_task', { id: editingTaskId, ...payload });
+      const idx = tasks.findIndex(t => t.id === editingTaskId);
+      if (idx !== -1) tasks[idx] = { ...tasks[idx], ...task };
+      toast('Task updated');
+    } else {
+      const { task } = await api('create_task', payload);
+      tasks.push(task);
+      toast('Task created');
+    }
+    // Recount open_tasks on project
+    const pid = payload.project_id;
+    const pIdx = projects.findIndex(p => p.id === pid);
+    if (pIdx !== -1) {
+      projects[pIdx].open_tasks = tasks.filter(t => t.project_id === pid && t.status !== 'done').length;
+    }
+    $('task-modal').classList.remove('open');
+    renderSidebar();
+    if (activeProjectId) renderMain(activeProjectId);
+  } catch(err) { toast(err.message, 'err'); }
+};
+
+$('task-modal-delete').onclick = async () => {
+  if (!editingTaskId) return;
+  if (!confirm('Delete this task?')) return;
+  try {
+    await api('delete_task', { id: editingTaskId });
+    const t = tasks.find(x => x.id === editingTaskId);
+    tasks = tasks.filter(x => x.id !== editingTaskId);
+    if (t) {
+      const pIdx = projects.findIndex(p => p.id === t.project_id);
+      if (pIdx !== -1) projects[pIdx].open_tasks = tasks.filter(x => x.project_id === t.project_id && x.status !== 'done').length;
+    }
+    $('task-modal').classList.remove('open');
+    renderSidebar();
+    if (activeProjectId) renderMain(activeProjectId);
+    toast('Task deleted');
+  } catch(err) { toast(err.message, 'err'); }
+};
+
+// Close modals on overlay click
+['project-modal','task-modal'].forEach(id => {
+  $(id).addEventListener('click', e => { if (e.target === $(id)) $(id).classList.remove('open'); });
+});
+</script>
+</body>
+</html>
