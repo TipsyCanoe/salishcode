@@ -13,6 +13,21 @@
     X-Robots-Tag = "noindex, nofollow"
 
 [[headers]]
+  for = "/sc-admin.html"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+
+[[headers]]
+  for = "/admin-survey.html"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+
+[[headers]]
+  for = "/sc-ws-9f3a.html"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+
+[[headers]]
   for = "/api/*"
   [headers.values]
     Access-Control-Allow-Origin = "*"

@@ -157,6 +157,17 @@
 let adminKey = '';
 let allData = null;
 
+// Escape user-supplied values before inserting into innerHTML (prevents stored XSS).
+function esc(v) {
+  if (v === null || v === undefined) return '';
+  return String(v)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 function login() {
   const key = document.getElementById('adminKey').value.trim();
   if (!key) return;
@@ -225,7 +236,7 @@ function buildChart(title, data, max) {
   const bars = data.map(d => {
     const pct = Math.round((d.count / max) * 100);
     return `<div class="bar-row">
-      <span class="bar-label" title="${d.label}">${d.label}</span>
+      <span class="bar-label" title="${esc(d.label)}">${esc(d.label)}</span>
       <div class="bar-track"><div class="bar-fill" style="width:${Math.max(pct,8)}%">${d.count}</div></div>
       <span class="bar-n">${d.count}</span>
     </div>`;
@@ -256,9 +267,9 @@ function buildResponseCard(r, callbackView) {
   return `<div class="response-card ${r.wants_callback ? 'callback' : ''}">
     <div class="r-top">
       <div class="r-tags">
-        ${r.nation ? `<span class="r-tag">${r.nation}</span>` : ''}
-        ${r.department ? `<span class="r-tag">${r.department}</span>` : ''}
-        ${r.role ? `<span class="r-tag">${r.role}</span>` : ''}
+        ${r.nation ? `<span class="r-tag">${esc(r.nation)}</span>` : ''}
+        ${r.department ? `<span class="r-tag">${esc(r.department)}</span>` : ''}
+        ${r.role ? `<span class="r-tag">${esc(r.role)}</span>` : ''}
         ${r.wants_callback ? `<span class="r-tag callback-tag">Callback requested</span>` : ''}
         ${isDone ? `<span class="r-tag done-tag">Followed up</span>` : ''}
       </div>
@@ -266,15 +277,15 @@ function buildResponseCard(r, callbackView) {
     </div>
     ${(r.phone || r.email || r.best_time) ? `
     <div class="r-contact">
-      ${r.phone ? `Phone: <strong>${r.phone}</strong>` : ''}
+      ${r.phone ? `Phone: <strong>${esc(r.phone)}</strong>` : ''}
       ${r.phone && r.email ? ' &nbsp;·&nbsp; ' : ''}
-      ${r.email ? `Email: <strong>${r.email}</strong>` : ''}
-      ${r.best_time ? ` &nbsp;·&nbsp; Best time: ${r.best_time}` : ''}
+      ${r.email ? `Email: <strong>${esc(r.email)}</strong>` : ''}
+      ${r.best_time ? ` &nbsp;·&nbsp; Best time: ${esc(r.best_time)}` : ''}
     </div>` : ''}
     <div class="r-answers">
-      ${r.q1 ? `<div class="r-q">Time sink</div><div class="r-a">${r.q1}</div>` : ''}
-      ${r.q2 ? `<div class="r-q">Hard to find</div><div class="r-a">${r.q2}</div>` : ''}
-      ${r.q3 ? `<div class="r-q">Fix one thing</div><div class="r-a">${r.q3}</div>` : ''}
+      ${r.q1 ? `<div class="r-q">Time sink</div><div class="r-a">${esc(r.q1)}</div>` : ''}
+      ${r.q2 ? `<div class="r-q">Hard to find</div><div class="r-a">${esc(r.q2)}</div>` : ''}
+      ${r.q3 ? `<div class="r-q">Fix one thing</div><div class="r-a">${esc(r.q3)}</div>` : ''}
     </div>
     ${r.wants_callback ? `
     <div class="r-actions">

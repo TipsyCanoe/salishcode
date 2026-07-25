@@ -56,7 +56,8 @@ exports.handler = async (event) => {
     const rows = await sql(`SELECT * FROM "${TABLE}"${order}`);
     return json(200, { rows, dateColumn: SORT_COL, count: rows.length });
   } catch (err) {
-    return json(500, { error: 'Query failed: ' + err.message });
+    console.error('grants query error:', err);
+    return json(500, { error: 'Query failed' });
   }
 };
 

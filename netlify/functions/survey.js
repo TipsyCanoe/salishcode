@@ -53,7 +53,8 @@ exports.handler = async (event) => {
     );
     return json(200, { rows, dateColumn: DATE_COL, count: rows.length });
   } catch (err) {
-    return json(500, { error: 'Query failed: ' + err.message });
+    console.error('survey query error:', err);
+    return json(500, { error: 'Query failed' });
   }
 };
 
