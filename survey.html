@@ -290,85 +290,6 @@
   .footer-name { font-family: 'Fraunces', serif; font-size: 16px; color: rgba(255,255,255,0.8); margin-bottom: 4px; }
   .footer-sub { font-size: 12px; color: rgba(255,255,255,0.35); }
 
-  /* ── ADMIN PANEL ──────────────────────────────── */
-  .admin-toggle {
-    position: fixed; bottom: 20px; right: 20px;
-    background: var(--forest); color: #fff;
-    border: none; border-radius: 50px;
-    padding: 10px 18px; font-family: 'DM Sans', sans-serif;
-    font-size: 12px; font-weight: 600; cursor: pointer;
-    box-shadow: var(--shadow-lg); z-index: 200;
-    letter-spacing: 0.04em;
-    transition: background 0.15s;
-  }
-  .admin-toggle:hover { background: var(--forest-mid); }
-
-  .admin-overlay {
-    position: fixed; inset: 0; background: rgba(22,18,16,0.6);
-    z-index: 300; display: none; align-items: flex-end;
-    justify-content: center;
-  }
-  .admin-overlay.open { display: flex; animation: fadeIn 0.2s ease; }
-  .admin-panel {
-    background: var(--cream); border-radius: 20px 20px 0 0;
-    width: 100%; max-width: 900px;
-    max-height: 80vh; overflow-y: auto;
-    padding: 1.75rem 2rem 2.5rem;
-    box-shadow: 0 -8px 40px rgba(16,12,8,0.15);
-  }
-  .admin-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; }
-  .admin-title { font-family: 'Fraunces', serif; font-size: 20px; color: var(--ink); }
-  .admin-close {
-    background: none; border: 1px solid var(--border-md);
-    border-radius: 8px; width: 34px; height: 34px;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer; font-size: 16px; color: var(--ink-muted);
-  }
-  .analytics-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 12px; margin-bottom: 1.5rem; }
-  .a-stat {
-    background: var(--offwhite); border: 1px solid var(--border);
-    border-radius: 10px; padding: 14px 16px;
-    border-left: 4px solid var(--forest);
-  }
-  .a-stat-label { font-size: 10px; font-weight: 600; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 5px; }
-  .a-stat-value { font-family: 'Fraunces', serif; font-size: 26px; color: var(--ink); }
-  .chart-section { margin-bottom: 1.5rem; }
-  .chart-title { font-size: 12px; font-weight: 600; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 12px; }
-  .bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
-  .bar-label { font-size: 12px; color: var(--ink-mid); width: 140px; flex-shrink: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .bar-track { flex: 1; background: var(--offwhite); border-radius: 4px; height: 22px; overflow: hidden; border: 1px solid var(--border); }
-  .bar-fill { height: 100%; background: var(--forest); border-radius: 3px; display: flex; align-items: center; padding-left: 8px; font-size: 11px; color: #fff; font-weight: 600; transition: width 0.5s ease; min-width: 28px; }
-  .bar-count { font-size: 12px; color: var(--ink-faint); width: 24px; text-align: right; flex-shrink: 0; }
-  .responses-list { margin-top: 1rem; }
-  .response-item {
-    background: var(--offwhite); border: 1px solid var(--border);
-    border-radius: 10px; padding: 12px 14px; margin-bottom: 8px;
-  }
-  .r-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
-  .r-tag {
-    font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 4px;
-    background: var(--sage-pale); color: var(--forest); letter-spacing: 0.04em;
-  }
-  .r-time { font-size: 10px; color: var(--ink-faint); margin-left: auto; }
-  .r-answers { display: flex; flex-direction: column; gap: 6px; }
-  .r-q { font-size: 11px; font-weight: 600; color: var(--ink-muted); }
-  .r-a { font-size: 12px; color: var(--ink-mid); line-height: 1.5; }
-  .empty-state { text-align: center; padding: 2rem; color: var(--ink-faint); font-size: 14px; }
-  .btn-export {
-    background: none; border: 1px solid var(--border-md);
-    border-radius: 8px; padding: 7px 16px;
-    font-size: 12px; font-weight: 600; color: var(--ink-muted);
-    cursor: pointer; font-family: 'DM Sans', sans-serif;
-    transition: all 0.15s;
-  }
-  .btn-export:hover { background: var(--offwhite); }
-  .btn-clear {
-    background: none; border: 1px solid rgba(180,40,30,0.2);
-    border-radius: 8px; padding: 7px 16px;
-    font-size: 12px; font-weight: 600; color: #b4281e;
-    cursor: pointer; font-family: 'DM Sans', sans-serif;
-  }
-
   /* ── CALLBACK BOX ─────────────────────────────── */
   .callback-block {
     background: var(--gold-pale);
@@ -398,19 +319,9 @@
   .callback-contact.show { display: block; }
   .callback-contact .field-row { margin-bottom: 0; }
 
-  /* Callback flag in analytics */
-  .callback-flag {
-    display: inline-block; font-size: 10px; font-weight: 700;
-    background: var(--gold-pale); color: #7A5500;
-    border: 1px solid rgba(196,152,42,0.3);
-    border-radius: 4px; padding: 2px 8px;
-    letter-spacing: 0.05em; margin-left: 4px;
-  }
-
   @media (max-width: 600px) {
     .field-row { grid-template-columns: 1fr; }
     .why-grid { grid-template-columns: 1fr; }
-    .analytics-grid { grid-template-columns: 1fr 1fr; }
     .hero-inner { padding: 3rem 0 2.5rem; }
   }
 
@@ -438,7 +349,7 @@
       Salish Code
     </a>
     <ul style="display:flex;gap:2px;list-style:none;align-items:center;">
-      <li><a href="solutions.html" style="font-size:13px;font-weight:500;color:rgba(255,255,255,0.65);text-decoration:none;padding:6px 12px;border-radius:6px;">Solutions</a></li>
+      <li><a href="index.html#solutions" style="font-size:13px;font-weight:500;color:rgba(255,255,255,0.65);text-decoration:none;padding:6px 12px;border-radius:6px;">Solutions</a></li>
       <li><a href="templates.html" style="font-size:13px;font-weight:500;color:rgba(255,255,255,0.65);text-decoration:none;padding:6px 12px;border-radius:6px;">Portfolio</a></li>
       <li><a href="pricing.html" style="font-size:13px;font-weight:500;color:rgba(255,255,255,0.65);text-decoration:none;padding:6px 12px;border-radius:6px;">Pricing</a></li>
       <li><a href="survey.html" style="font-size:13px;font-weight:500;color:#C4982A;text-decoration:none;padding:6px 12px;border-radius:6px;">Community Survey</a></li>
@@ -723,7 +634,7 @@
       </div>
 
       <div class="submit-row">
-        <button class="btn-submit" onclick="submitSurvey()">Submit response</button>
+        <button id="submitBtn" class="btn-submit" onclick="submitSurvey()">Submit response</button>
         <p class="privacy-note">Responses are used only to prioritize tool development. We do not share or sell your information.</p>
       </div>
     </div>
@@ -748,38 +659,20 @@
   <div class="footer-sub">Technology for Tribal Governments &amp; Institutions · Bellingham, WA</div>
 </footer>
 
-<!-- ── ADMIN TOGGLE ──────────────────────────────── -->
-<button class="admin-toggle" onclick="openAdmin()">Analytics</button>
-
-<div class="admin-overlay" id="adminOverlay" onclick="closeAdminIfOutside(event)">
-  <div class="admin-panel" id="adminPanel">
-    <div class="admin-header">
-      <span class="admin-title">Response Analytics</span>
-      <div style="display:flex;gap:8px;align-items:center;">
-        <button class="btn-export" onclick="exportCSV()">Export CSV</button>
-        <button class="btn-clear" onclick="clearData()">Clear</button>
-        <button class="admin-close" onclick="closeAdmin()">&#x2715;</button>
-      </div>
-    </div>
-    <div id="adminContent"></div>
-  </div>
-</div>
-
 <script>
-const STORAGE_KEY = 'sc_survey_responses';
+// Responses are never stored in the browser. This page is filled out on shared
+// and public devices, so every answer goes straight to the server and nothing
+// identifying is left behind for the next person. Analytics live behind the
+// password gate on admin-survey.html.
 
-function getResponses() {
-  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch(e) { return []; }
-}
-function saveResponses(arr) {
-  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(arr)); } catch(e) {}
-}
+// One-time cleanup of the localStorage cache this page used to keep.
+try { localStorage.removeItem('sc_survey_responses'); } catch(e) {}
 
 function toggleCallback(cb) {
   document.getElementById('callbackContact').classList.toggle('show', cb.checked);
 }
 
-function submitSurvey() {
+async function submitSurvey() {
   const q1 = document.getElementById('f-q1').value.trim();
   const q2 = document.getElementById('f-q2').value.trim();
   const q3 = document.getElementById('f-q3').value.trim();
@@ -814,16 +707,23 @@ function submitSurvey() {
     email: email || '',
     calltime: calltime || '',
   };
-  const arr = getResponses();
-  arr.push(entry);
-  saveResponses(arr);
-
-  // Post to Netlify / serverless function
-  fetch('/api/save-survey', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(entry)
-  }).catch(() => {});
+  // Post to Netlify / serverless function and only confirm on real success.
+  const btn = document.getElementById('submitBtn');
+  if (btn) { btn.disabled = true; btn.dataset.label = btn.textContent; btn.textContent = 'Sending…'; }
+  try {
+    const res = await fetch('/api/save-survey', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(entry)
+    });
+    if (!res.ok) throw new Error('save failed: ' + res.status);
+  } catch (err) {
+    console.error(err);
+    if (btn) { btn.disabled = false; btn.textContent = btn.dataset.label || 'Submit'; }
+    alert("Sorry — we couldn't submit your response just now. Please check your connection and try again.");
+    return;
+  }
+  if (btn) { btn.disabled = false; btn.textContent = btn.dataset.label || 'Submit'; }
 
   document.getElementById('formCard').style.display = 'none';
 
@@ -836,120 +736,6 @@ function submitSurvey() {
   window.scrollTo({ top: document.getElementById('survey').offsetTop - 60, behavior: 'smooth' });
 }
 
-function buildChart(title, data, maxCount) {
-  if (!data.length) return '';
-  const sorted = [...data].sort((a,b) => b.count - a.count).slice(0, 8);
-  const bars = sorted.map(item => {
-    const pct = maxCount > 0 ? Math.round((item.count / maxCount) * 100) : 0;
-    return `<div class="bar-row">
-      <span class="bar-label" title="${item.label}">${item.label}</span>
-      <div class="bar-track"><div class="bar-fill" style="width:${Math.max(pct,8)}%">${item.count}</div></div>
-      <span class="bar-count">${item.count}</span>
-    </div>`;
-  }).join('');
-  return `<div class="chart-section"><div class="chart-title">${title}</div>${bars}</div>`;
-}
-
-function renderAdmin() {
-  const responses = getResponses();
-  const total = responses.length;
-
-  const nationCounts = {};
-  const deptCounts = {};
-  const fisherCounts = {};
-  const memberCounts = {};
-  responses.forEach(r => {
-    if (r.nation && r.nation !== 'Not specified') nationCounts[r.nation] = (nationCounts[r.nation]||0)+1;
-    if (r.dept && r.dept !== 'Not specified') deptCounts[r.dept] = (deptCounts[r.dept]||0)+1;
-    if (r.fisher) fisherCounts[r.fisher] = (fisherCounts[r.fisher]||0)+1;
-    if (r.member) memberCounts[r.member] = (memberCounts[r.member]||0)+1;
-  });
-
-  const nationData = Object.entries(nationCounts).map(([label,count]) => ({label,count}));
-  const deptData = Object.entries(deptCounts).map(([label,count]) => ({label,count}));
-  const fisherData = Object.entries(fisherCounts).map(([label,count]) => ({label,count}));
-  const maxNation = nationData.length ? Math.max(...nationData.map(d=>d.count)) : 1;
-  const maxDept = deptData.length ? Math.max(...deptData.map(d=>d.count)) : 1;
-  const maxFisher = fisherData.length ? Math.max(...fisherData.map(d=>d.count)) : 1;
-
-  const recentList = [...responses].reverse().slice(0, 10).map(r => `
-    <div class="response-item">
-      <div class="r-meta">
-        ${r.nation !== 'Not specified' ? `<span class="r-tag">${r.nation}</span>` : ''}
-        ${r.dept !== 'Not specified' ? `<span class="r-tag">${r.dept}</span>` : ''}
-        ${r.role ? `<span class="r-tag">${r.role}</span>` : ''}
-        ${r.callback ? `<span class="callback-flag">Callback requested</span>` : ''}
-        <span class="r-time">${new Date(r.ts).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}</span>
-      </div>
-      ${r.callback ? `<div style="font-size:12px;color:var(--ink-mid);margin-bottom:8px;padding:6px 10px;background:var(--gold-pale);border-radius:6px;">
-        ${r.phone ? `Phone: <strong>${r.phone}</strong>` : ''}
-        ${r.phone && r.email ? ' &nbsp;·&nbsp; ' : ''}
-        ${r.email ? `Email: <strong>${r.email}</strong>` : ''}
-        ${r.calltime ? ` &nbsp;·&nbsp; Best time: ${r.calltime}` : ''}
-      </div>` : ''}
-      <div class="r-answers">
-        ${r.q1 ? `<div class="r-q">Time sink:</div><div class="r-a">${r.q1}</div>` : ''}
-        ${r.q2 ? `<div class="r-q">Hard to find:</div><div class="r-a">${r.q2}</div>` : ''}
-        ${r.q3 ? `<div class="r-q">Fix one thing:</div><div class="r-a">${r.q3}</div>` : ''}
-        ${r.member ? `<div class="r-q">Tribal member:</div><div class="r-a">${r.member}</div>` : ''}
-        ${r.fisher ? `<div class="r-q">Fisher:</div><div class="r-a">${r.fisher}</div>` : ''}
-        ${r.vessel ? `<div class="r-q">Vessel owner:</div><div class="r-a">${r.vessel}</div>` : ''}
-      </div>
-    </div>
-  `).join('');
-
-  const callbacks = responses.filter(r => r.callback).length;
-  const fishers = responses.filter(r => r.fisher && r.fisher !== 'No' && r.fisher !== 'Prefer not to say' && r.fisher !== '').length;
-
-  document.getElementById('adminContent').innerHTML = `
-    <div class="analytics-grid">
-      <div class="a-stat"><div class="a-stat-label">Total responses</div><div class="a-stat-value">${total}</div></div>
-      <div class="a-stat"><div class="a-stat-label">Callback requests</div><div class="a-stat-value" style="color:var(--gold)">${callbacks}</div></div>
-      <div class="a-stat"><div class="a-stat-label">Fishers represented</div><div class="a-stat-value">${fishers}</div></div>
-    </div>
-    ${total === 0 ? '<div class="empty-state">No responses yet — share the page to start collecting.</div>' : ''}
-    ${buildChart('Responses by department', deptData, maxDept)}
-    ${buildChart('Responses by tribal nation', nationData, maxNation)}
-    ${fisherData.length ? buildChart('Fisher type breakdown', fisherData, maxFisher) : ''}
-    ${total > 0 ? `<div class="chart-title" style="margin-top:1.5rem;">Recent responses</div><div class="responses-list">${recentList}</div>` : ''}
-  `;
-}
-
-function openAdmin() {
-  renderAdmin();
-  document.getElementById('adminOverlay').classList.add('open');
-}
-function closeAdmin() {
-  document.getElementById('adminOverlay').classList.remove('open');
-}
-function closeAdminIfOutside(e) {
-  if (e.target === document.getElementById('adminOverlay')) closeAdmin();
-}
-
-function exportCSV() {
-  const responses = getResponses();
-  if (!responses.length) { alert('No responses to export yet.'); return; }
-  const headers = ['Date','Nation','Department','Role','Name','Callback Requested','Phone','Email','Best Time','Q1 - Time sink','Q2 - Hard to find','Q3 - Fix one thing'];
-  const rows = responses.map(r => [
-    new Date(r.ts).toLocaleDateString(),
-    r.nation, r.dept, r.role, r.name,
-    r.callback ? 'Yes' : 'No',
-    r.phone || '', r.email || '', r.calltime || '',
-    r.q1, r.q2, r.q3
-  ].map(v => `"${(v||'').replace(/"/g,'""')}"`).join(','));
-  const csv = [headers.join(','), ...rows].join('\n');
-  const a = document.createElement('a');
-  a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
-  a.download = 'salishcode-survey-responses.csv';
-  a.click();
-}
-
-function clearData() {
-  if (confirm('Delete all survey responses? This cannot be undone.')) {
-    localStorage.removeItem(STORAGE_KEY);
-    renderAdmin();
-  }
-}
 </script>
 </body>
 </html>
