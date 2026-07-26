@@ -6,9 +6,20 @@
 <meta name="robots" content="noindex, nofollow" />
 <title>Website Templates — Salish Code LLC</title>
 <link rel="icon" type="image/png" href="backgroundless_logo.png" />
-<script src="https://unpkg.com/react@18/umd/react.development.js"></script>
-<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<!-- Pinned to exact versions with SRI so a compromised or hijacked CDN response
+     fails closed instead of executing. Bumping a version means recomputing its
+     integrity hash: curl -sL <url> | openssl dgst -sha384 -binary | openssl base64 -A
+     TODO: pre-compile the JSX at build time and drop @babel/standalone (2.4 MB,
+     and it compiles on every page load). -->
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"
+        integrity="sha384-DGyLxAyjq0f9SPpVevD6IgztCFlnMF6oW/XQGmfe+IsZ8TqEiDrcHkMLKI6fiB/Z"
+        crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"
+        integrity="sha384-gTGxhz21lVGYNMcdJOyq01Edg0jhn/c22nsx0kyqP0TxaV5WVdsSH1fSDUf5YJj1"
+        crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@8.0.4/babel.min.js"
+        integrity="sha384-bdF7m0Y1IFKt9Q6xC8X9qkXn0OBriQWKyWwZKYsN05zF6P/g9OakjjL0G2Sd4pB4"
+        crossorigin="anonymous"></script>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: #080808; }
