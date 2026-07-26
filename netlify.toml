@@ -7,25 +7,43 @@
   node_bundler = "esbuild"
   included_files = []
 
+# ── Site-wide baseline ────────────────────────────────────────────────
+# X-Frame-Options is deliberately NOT set here. Netlify merges header rules
+# from every matching block, so a site-wide value plus a per-page value would
+# emit two X-Frame-Options headers and browsers ignore the conflicting pair.
+# Framing is denied per-page on the admin tools below, which is where it matters.
+# CSP is intentionally omitted for now — it needs its own pass (inline styles
+# and inline scripts on every page would each need a nonce or hash).
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+# ── Admin tools: no indexing, no framing ──────────────────────────────
 [[headers]]
   for = "/admin.html"
   [headers.values]
     X-Robots-Tag = "noindex, nofollow"
+    X-Frame-Options = "DENY"
 
 [[headers]]
   for = "/sc-admin.html"
   [headers.values]
     X-Robots-Tag = "noindex, nofollow"
+    X-Frame-Options = "DENY"
 
 [[headers]]
   for = "/admin-survey.html"
   [headers.values]
     X-Robots-Tag = "noindex, nofollow"
+    X-Frame-Options = "DENY"
 
 [[headers]]
   for = "/sc-ws-9f3a.html"
   [headers.values]
     X-Robots-Tag = "noindex, nofollow"
+    X-Frame-Options = "DENY"
 
 [[headers]]
   for = "/api/*"
