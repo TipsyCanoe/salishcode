@@ -319,6 +319,16 @@
   .callback-contact.show { display: block; }
   .callback-contact .field-row { margin-bottom: 0; }
 
+  /* Honeypot — moved off-screen rather than display:none so that bots which
+     skip hidden inputs still fill it. Never visible to a real respondent. */
+  .hp-wrap {
+    position: absolute !important;
+    left: -9999px !important;
+    top: auto;
+    width: 1px; height: 1px;
+    overflow: hidden;
+  }
+
   @media (max-width: 600px) {
     .field-row { grid-template-columns: 1fr; }
     .why-grid { grid-template-columns: 1fr; }
@@ -495,11 +505,11 @@
       <div class="field-row">
         <div class="field">
           <label>Job role / title <span class="optional-tag">optional</span></label>
-          <input type="text" id="f-role" placeholder="e.g. Grants Coordinator, Housing Manager..." />
+          <input type="text" id="f-role" maxlength="200" placeholder="e.g. Grants Coordinator, Housing Manager..." />
         </div>
         <div class="field">
           <label>Name <span class="optional-tag">optional</span></label>
-          <input type="text" id="f-name" placeholder="First name or anonymous" />
+          <input type="text" id="f-name" maxlength="200" placeholder="First name or anonymous" />
         </div>
       </div>
       <div class="field-row">
@@ -560,7 +570,7 @@
         </div>
         <div class="q-hint">Think about repetitive work, manual re-entry, chasing information across spreadsheets or emails.</div>
         <div class="field">
-          <textarea id="f-q1" placeholder="e.g. I spend hours every Monday manually updating a spreadsheet that five people then email back and forth..."></textarea>
+          <textarea id="f-q1" maxlength="2000" placeholder="e.g. I spend hours every Monday manually updating a spreadsheet that five people then email back and forth..."></textarea>
         </div>
       </div>
 
@@ -572,7 +582,7 @@
         </div>
         <div class="q-hint">Grant deadlines, application statuses, member records, approval chains — anything that takes too many steps to locate.</div>
         <div class="field">
-          <textarea id="f-q2" placeholder="e.g. I have to call three different people to find out where a housing application is in the approval process..."></textarea>
+          <textarea id="f-q2" maxlength="2000" placeholder="e.g. I have to call three different people to find out where a housing application is in the approval process..."></textarea>
         </div>
       </div>
 
@@ -584,7 +594,7 @@
         </div>
         <div class="q-hint">Could be a missing feature, a broken process, or just something that's frustratingly manual.</div>
         <div class="field">
-          <textarea id="f-q3" placeholder="e.g. Our current system can't track which grants are due when without looking at a separate spreadsheet..."></textarea>
+          <textarea id="f-q3" maxlength="2000" placeholder="e.g. Our current system can't track which grants are due when without looking at a separate spreadsheet..."></textarea>
         </div>
       </div>
 
@@ -601,18 +611,27 @@
           <div class="field-row" style="margin-top:0.75rem;">
             <div class="field">
               <label>Best phone number <span class="optional-tag">or leave blank</span></label>
-              <input type="tel" id="f-phone" placeholder="(360) 555-0100" />
+              <input type="tel" id="f-phone" maxlength="40" placeholder="(360) 555-0100" />
             </div>
             <div class="field">
               <label>Email address <span class="optional-tag">or leave blank</span></label>
-              <input type="email" id="f-email" placeholder="you@lummi-nsn.gov" />
+              <input type="email" id="f-email" maxlength="254" placeholder="you@lummi-nsn.gov" />
             </div>
           </div>
           <div class="field" style="margin-top:10px;">
             <label>Best time to reach you <span class="optional-tag">optional</span></label>
-            <input type="text" id="f-calltime" placeholder="e.g. Mornings, Tuesday afternoons..." />
+            <input type="text" id="f-calltime" maxlength="200" placeholder="e.g. Mornings, Tuesday afternoons..." />
           </div>
         </div>
+      </div>
+
+      <!-- Honeypot. Off-screen rather than display:none, because some bots skip
+           fields that are display:none or hidden. aria-hidden + tabindex=-1 keep
+           it out of the screen-reader and keyboard paths, so no real respondent
+           can reach it. Anything that arrives filled is discarded server-side. -->
+      <div class="hp-wrap" aria-hidden="true">
+        <label for="f-website">Website</label>
+        <input type="text" id="f-website" name="website" tabindex="-1" autocomplete="off" />
       </div>
 
       <div class="submit-row">
@@ -688,6 +707,9 @@ async function submitSurvey() {
     phone: phone || '',
     email: email || '',
     calltime: calltime || '',
+    // Honeypot — always empty for a real respondent. Sent as-is so the server
+    // can decide; see save-survey.js.
+    website: document.getElementById('f-website').value || '',
   };
   // Post to Netlify / serverless function and only confirm on real success.
   const btn = document.getElementById('submitBtn');
@@ -698,11 +720,21 @@ async function submitSurvey() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(entry)
     });
-    if (!res.ok) throw new Error('save failed: ' + res.status);
+    if (!res.ok) {
+      // 400 (too long) and 429 (rate limited) carry a message worth showing;
+      // anything else falls back to the generic network wording.
+      let msg = null;
+      if (res.status === 400 || res.status === 429) {
+        msg = await res.json().then(d => d.error).catch(() => null);
+      }
+      const err = new Error('save failed: ' + res.status);
+      err.userMessage = msg;
+      throw err;
+    }
   } catch (err) {
     console.error(err);
     if (btn) { btn.disabled = false; btn.textContent = btn.dataset.label || 'Submit'; }
-    alert("Sorry — we couldn't submit your response just now. Please check your connection and try again.");
+    alert(err.userMessage || "Sorry — we couldn't submit your response just now. Please check your connection and try again.");
     return;
   }
   if (btn) { btn.disabled = false; btn.textContent = btn.dataset.label || 'Submit'; }
